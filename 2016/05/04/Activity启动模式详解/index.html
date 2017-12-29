@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Activity启动模式详解 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Activity的启动模式有四种：
+
+standard(标准模式，也是Activity的默认启动模式)
+singleTop（栈顶复用模式）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity启动模式详解">
+<meta property="og:url" content="http://juhonggang.github.io/2016/05/04/Activity启动模式详解/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="Activity的启动模式有四种：
+
+standard(标准模式，也是Activity的默认启动模式)
+singleTop（栈顶复用模式）">
+<meta property="og:updated_time" content="2016-05-04T03:21:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity启动模式详解">
+<meta name="twitter:description" content="Activity的启动模式有四种：
+
+standard(标准模式，也是Activity的默认启动模式)
+singleTop（栈顶复用模式）">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 13.33px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Activity启动模式详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/04/Activity启动模式详解/" class="article-date">
+      <time datetime="2016-05-04T03:16:21.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Activity启动模式详解
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Activity/">Activity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/启动模式/">启动模式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Activity的启动模式有四种：</p>
+<ol>
+<li>standard(标准模式，也是Activity的默认启动模式)</li>
+<li>singleTop（栈顶复用模式）<a id="more"></a></li>
+<li>singleTask（栈内复用模式）</li>
+<li>singleInstance（单实例模式）</li>
+</ol>
+<p>下面对这四种启动模式进行详细的介绍：</p>
+<h3 id="standard"><a href="#standard" class="headerlink" title="standard:"></a>standard:</h3><p>standard模式是Android默认的启动模式，在AndroidManifest.xml定义Activity的时候，如果没有指定启动模式，那么该Activity将默认使用此模式。该启动模式表示，在启动一个新的Activity的时候，不论Activity的栈中有没有当前Activity的实例，都会创建一个新的Activity实例添加到Activity的栈中。其伪代码如下；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">standardMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	activityStack.add(<span class="keyword">new</span> SpecificActivity());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop:"></a>singleTop:</h3><p>栈顶复用模式，使用这种模式的Activity在启动时会首先检查Activity的栈顶， 如果存在一个该Activity的实例，则不会创建新的Activity, 而是使用栈顶的Activity实例（需要注意的是：使用栈顶的Activity实例时，并不会重新执行Activity的生命周期方法，而是执行onNewIntent()方法， 可以在此方法中接收相应的值）；否则将创建新的Activity实例，不管Activity的栈中是否有当前Activity的实例。即该模式只会检查栈顶实例。其伪代码如下；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void singleTopMode() &#123;</span><br><span class="line">	topActivity = activityStack.get(activityStack.size()-1);</span><br><span class="line">	if (topActivity instanceOf SpecificActivity) &#123;</span><br><span class="line">		topActivity.onNewIntent();</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		activityStack.add(new SpecificActivity());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="singleTask："><a href="#singleTask：" class="headerlink" title="singleTask："></a>singleTask：</h3><p>栈内复用模式，使用这种模式的Activity在启动的时候会先检查Activity栈，如果在Activity的栈中发现已存在当前Activity的实例，则使用栈中的Activity实例，并执行该实例的onNewIntent方法。否则将创建新的Activity实例。需要注意和singleTop区别的是：singleTop只检查栈顶的实例， 而singleTask会检查整个Activity栈，一旦发现有实例存在，就不再创建新的实例，同时，在使用Activity栈中已存在的实例时，会讲改实例到栈顶的所有其他实例移出栈空间。其伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public void singleTask() &#123;</span><br><span class="line">	int index = -1;</span><br><span class="line">	for (int i = activityStack.size()-1; i &gt;= 0; i--) &#123;</span><br><span class="line">		if (activityStack.get(i) instanceOf SpecificActivity) &#123;</span><br><span class="line">			index = i;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if (index != -1) &#123;</span><br><span class="line">		for (int i = index + 1; i &lt; activityStack.size(); i++) &#123;</span><br><span class="line">			activityStack.remove(i);</span><br><span class="line">		&#125;</span><br><span class="line">		activityStack.get(index).onNewIntent();</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		activityStack.add(new SpecificActivity());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance:"></a>singleInstance:</h3><p>单实例模式，可以认为是singleTask的升级版，除了具有singleTask的所有特点外，其最重要的一个特性就是，在创建Activity实例的时候，还会为其单独创建一个Activity栈。其伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void singleTask() &#123;</span><br><span class="line">	// 先创建栈</span><br><span class="line">	if (SpecificActivityStack == null) &#123;</span><br><span class="line">		SpecificActivityStack = createStack();</span><br><span class="line">	&#125;</span><br><span class="line">	// 因为使用这种模式的Activity都拥有单独的栈空间，所以每个栈空间中只有一个Activity实例</span><br><span class="line">	if (SpecificActivityStack.get(0) != null) &#123;</span><br><span class="line">		SpecificActivityStack.get(0).onNewIntance();</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		SpecificActivityStack.add(new SpecificActivity());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>stardard模式是默认的启动模式，一般情况下，我们在项目开发过程中不会对Activity指定启动模式，所以基本上项目中的大多数的Activity都采用的这种模式；</li>
+<li>目前市场的App，大多数都采用的Tab+Viewpager＋Fragment的模式构建的App的主页，而这种模式的主页的启动模式一般都是singleTask模式，因为我们只需要一个主页实例；</li>
+<li>singleTop模式基本都是用来解决重复创建实例问题的，一般情况下用的比较少。但是在推送通知和支付中比较长见，比如微信支付的WXPayEntryActivity的启动模式就是singleTop；再比如推送的情况，当你接收到一个推送后，点击后会跳转到相应的Activity, 当你跳转之后，又收到了一条推送通知，此时跳转的是同一个Activity，此时我们就可以考虑使用singleTop模式，否则不断的点击推送通知，将会不断创建新的Activity实例；</li>
+<li>singleInstance模式的使用场景非常罕见。如果一个Activity要实现全局的功能点，但是又不想被其他的Activity影响（有点像Service），此时就可以考虑使用singleInstance模式了。比如QQ在锁屏情况下的消息弹窗，其实就是一个Activity（只不过对Window对象进行了设置），因为它要一直处于运行中，就要求不能被其他的Activity的影响，此时使用singleInstance最好不过了。<strong>通俗来说，如果你需要Activity像Service一样一直处于Running状态时，就可以考虑使用singleInstance模式了</strong>。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>妙用Activity的启动模式，有时可以起到事半功倍的效果，并且简化我们的需求，提高开发效率。具体使用哪种启动模式，还是要根据需求具体对待。</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2016年05月04日 - 11时16分</p>
+        <p><span>最后更新:</span>2016年05月04日 - 11时21分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/04/Activity启动模式详解/" title="Activity启动模式详解">http://juhonggang.github.io/2016/05/04/Activity启动模式详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2016/05/04/Activity启动模式详解/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/05/04/Drawable与Bitmap转换/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Drawable与Bitmap的转换及缩放
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/03/ListView加载不同Item布局/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ListView加载不同Item布局</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/05/04/Drawable与Bitmap转换/" title="上一篇: Drawable与Bitmap的转换及缩放">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/05/03/ListView加载不同Item布局/" title="下一篇: ListView加载不同Item布局">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

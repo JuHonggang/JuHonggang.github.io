@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HorizontalScrollView高仿QQ滑动删除 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="不论什么领域，在模仿一个东西的时候，我们首先要对它进行需求分析，这样才能保证做到”惟妙惟肖”。下面我们一步一步来实现QQ的侧滑功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HorizontalScrollView高仿QQ滑动删除">
+<meta property="og:url" content="http://juhonggang.github.io/2016/05/03/HorizontalScrollView实现QQ侧滑删除/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="不论什么领域，在模仿一个东西的时候，我们首先要对它进行需求分析，这样才能保证做到”惟妙惟肖”。下面我们一步一步来实现QQ的侧滑功能。">
+<meta property="og:image" content="http://image16-c.poco.cn/mypoco/myphoto/20160428/20/17890429620160428200336047.jpg?1080x1920_120">
+<meta property="og:updated_time" content="2016-05-09T12:20:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HorizontalScrollView高仿QQ滑动删除">
+<meta name="twitter:description" content="不论什么领域，在模仿一个东西的时候，我们首先要对它进行需求分析，这样才能保证做到”惟妙惟肖”。下面我们一步一步来实现QQ的侧滑功能。">
+<meta name="twitter:image" content="http://image16-c.poco.cn/mypoco/myphoto/20160428/20/17890429620160428200336047.jpg?1080x1920_120">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 13.33px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-HorizontalScrollView实现QQ侧滑删除" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/" class="article-date">
+      <time datetime="2016-05-03T09:13:05.000Z" itemprop="datePublished">2016-05-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HorizontalScrollView高仿QQ滑动删除
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HorizontalScrollView/">HorizontalScrollView</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滑动删除/">滑动删除</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>不论什么领域，在模仿一个东西的时候，我们首先要对它进行需求分析，这样才能保证做到”惟妙惟肖”。下面我们一步一步来实现QQ的侧滑功能。</p>
+<a id="more"></a>
+<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ol>
+<li>每个Item都可以侧滑，根据Item类型的不同，侧滑后显示的菜单项也不同（联系人/群组的菜单有：置顶，标为已读，删除， 通知类消息展示的菜单只有置顶和删除）；</li>
+<li>侧滑的过程中，如果滑动距离超过第一个菜单的宽度，抬起手指时会显示全部的菜单，即Item会滑动到最左端；</li>
+<li>在向右滑动关闭菜单的过程中，如果滑动距离超过最后一个菜单的宽度，抬起手指时会关闭全部菜单， 即Item会恢复至正常展示状态；</li>
+<li>如果Item的菜单呈展开状态，则点击此Item或按下其他Item，当前的Item的菜单将会关闭；</li>
+<li>如果没有Item的菜单呈展开状态，点击Item时将进入聊天页面；</li>
+<li>观察Item滑动的过程，发现其是匀速滑动， 而不是快速移动;</li>
+<li>不能同时滑动多个Item；</li>
+</ol>
+<p>通过对需求的分析，首先会想到HorizontalScrollView, 当然，重写Item的RooView的onTouchListener()也可以实现，但是普通的View只有scrollTo()和scrollBy()方法, 只能快速移动而不能匀速移动，导致滑动的过程很生硬。所以我们使用HorizontalScrollView来实现我们的效果。</p>
+<h3 id="布局："><a href="#布局：" class="headerlink" title="布局："></a>布局：</h3><p>根布局其实没什么内容，就是一个ListView，这样就不贴代码了， 下面我们主要展示一下Item的布局内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;HorizontalScrollView  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:id=&quot;@+id/horizontal_scrollview&quot;</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;70dp&quot;</span><br><span class="line">    android:fillViewport=&quot;true&quot;</span><br><span class="line">    android:scrollbars=&quot;none&quot;&gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:orientation=&quot;horizontal&quot;</span><br><span class="line">        android:gravity=&quot;center&quot;&gt;</span><br><span class="line">        &lt;LinearLayout</span><br><span class="line">            android:id=&quot;@+id/content_layout&quot;</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:orientation=&quot;horizontal&quot;</span><br><span class="line">            android:padding=&quot;12dp&quot;&gt;</span><br><span class="line">            &lt;ImageView</span><br><span class="line">                android:id=&quot;@+id/icon&quot;</span><br><span class="line">                android:layout_width=&quot;60dp&quot;</span><br><span class="line">                android:layout_height=&quot;60dp&quot;</span><br><span class="line">                android:src=&quot;@mipmap/ic_launcher&quot;/&gt;</span><br><span class="line">            &lt;LinearLayout</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                android:layout_marginLeft=&quot;12dp&quot;</span><br><span class="line">                android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:id=&quot;@+id/name_text&quot;</span><br><span class="line">                    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                    android:text=&quot;Freeman&quot;</span><br><span class="line">                    android:textSize=&quot;15sp&quot;</span><br><span class="line">                    android:textColor=&quot;#333333&quot;/&gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:id=&quot;@+id/content_text&quot;</span><br><span class="line">                    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                    android:gravity=&quot;bottom&quot;</span><br><span class="line">                    android:text=&quot;HorizontalScrollView实现QQ侧滑删除&quot;</span><br><span class="line">                    android:textSize=&quot;14sp&quot;</span><br><span class="line">                    android:textColor=&quot;#999999&quot;/&gt;</span><br><span class="line">            &lt;/LinearLayout&gt;</span><br><span class="line">            &lt;TextView</span><br><span class="line">                android:id=&quot;@+id/time_text&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                android:paddingRight=&quot;12dp&quot;</span><br><span class="line">                android:text=&quot;14:06&quot;</span><br><span class="line">                android:textSize=&quot;13sp&quot;</span><br><span class="line">                android:textColor=&quot;#999999&quot;/&gt;</span><br><span class="line">        &lt;/LinearLayout&gt;</span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;70dp&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;置顶&quot;</span><br><span class="line">            android:textSize=&quot;15sp&quot;</span><br><span class="line">            android:textColor=&quot;#FFFFFF&quot;</span><br><span class="line">            android:background=&quot;#999999&quot;/&gt;</span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;85dp&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;标为已读&quot;</span><br><span class="line">            android:textSize=&quot;15sp&quot;</span><br><span class="line">            android:textColor=&quot;#FFFFFF&quot;</span><br><span class="line">            android:background=&quot;#FF9900&quot;/&gt;</span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;70dp&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:gravity=&quot;center&quot;</span><br><span class="line">            android:text=&quot;删除&quot;</span><br><span class="line">            android:textSize=&quot;15sp&quot;</span><br><span class="line">            android:textColor=&quot;#FFFFFF&quot;</span><br><span class="line">            android:background=&quot;#FF0000&quot;/&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">&lt;/HorizontalScrollView&gt;</span><br></pre></td></tr></table></figure>
+<p>在使用HorizontalScrollView的时候有以下几点需要注意：</p>
+<ol>
+<li>它和ScrollView一样，只能有一个子布局，且一般为LinearLayout；</li>
+<li>只有内容的宽度超过屏幕的宽度HorizontalScrollView才可以滑动；</li>
+<li>match_parent会失效。默认情况下HorizontalScrollView使用match_parent，如果内容没有占满屏幕宽度，则HorizontalScrollView的宽度不会达到屏幕的宽度，要想让HorizontalScrollView和屏幕宽度一样，需要添加 android:fillViewport=”true”属性。同样其子布局的match_parent也会失效，在这个布局中，id为content_layout的LinearLayout宽度为match_parent, 刚开始我认为它已经占满了整个屏幕的宽度，然后后面的菜单按键就会在屏幕之外，这样整个布局的跨度超过了屏幕宽度，HorizontalScrollView就可以自动滑动了，结果是我想多了；</li>
+</ol>
+<h3 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h3><h4 id="step1-让HorizontalScrollView滑动起来"><a href="#step1-让HorizontalScrollView滑动起来" class="headerlink" title="step1. 让HorizontalScrollView滑动起来"></a>step1. 让HorizontalScrollView滑动起来</h4><p>加载上面的布局，然后设置给ListView设置了布局之后发现HorizontalView根本不能滑动，问题当然很明确，Item布局中match_paren失效，既然布局中不能设置，那我们只能动态设置了，通过以下代码设置Item中展示内容的布局宽度为屏幕宽度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 获取内容展示布局的布局参数</span><br><span class="line">LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.contentLayout.getLayoutParams();</span><br><span class="line">// 设置宽度为屏幕宽度</span><br><span class="line">params.width = getResources().getDisplayMetrics().widthPixels;</span><br><span class="line">// 重设布局参数</span><br><span class="line">holder.contentLayout.setLayoutParams(params);</span><br></pre></td></tr></table></figure>
+<p>再次运行发现HorizontalScrollView可以滑动了，看起来效果还不错，但这只是一个开始。仔细分析一下上面其他的需求，我们发现即便使用HorizontalScrollView, 却依然需要重写onTouchListener()才能实现。接下来我们一步一步来实现其他的需求：</p>
+<h4 id="step2-不要在路上逗留"><a href="#step2-不要在路上逗留" class="headerlink" title="step2. 不要在路上逗留"></a>step2. 不要在路上逗留</h4><p>需求2和需求3主要是对滑动距离的控制， 那么只要我们在手指弹起的时候对滑动距离进行判断，就可以很好地对其进行控制。代码实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 获取滑动的距离</span><br><span class="line">   float distance = Math.abs(event.getX() - downX);</span><br><span class="line">   if (distance &gt; 0 &amp;&amp; distance &lt; dpToPx(70)) &#123; // 如果滑动距离在70dp内（Button宽度）则回复至原来的位置</span><br><span class="line">       v.post(new Runnable() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void run() &#123;</span><br><span class="line">           	// 如果是向右滑动，则依然恢复至菜单展开状态</span><br><span class="line">               if (isRight) &#123;</span><br><span class="line">                   ((HorizontalScrollView) view).fullScroll(View.FOCUS_RIGHT);</span><br><span class="line">               &#125; else &#123;</span><br><span class="line">                   ((HorizontalScrollView)view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125; else &#123; // 滑动距离超过70dp(Button宽度)则完全展开菜单或关闭菜单</span><br><span class="line">       v.post(new Runnable() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void run() &#123;</span><br><span class="line">               if (isRight) &#123;</span><br><span class="line">                   ((HorizontalScrollView) view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">               &#125; else &#123;</span><br><span class="line">                   lastPosition = position;</span><br><span class="line">                   ((HorizontalScrollView)view).fullScroll(View.FOCUS_RIGHT);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>fullScroll()用来滑动至两端，View.FOCUS_LEFT表示滑动至最左端，即恢复至正常显示状态，View.FOCUS_RIGHT表示滑动至最右段，即展开菜单。但是直接使用fullScroll()是不起作用的，因为fullScroll()的操作是异步的，系统并不会等待fullScroll()执行完成，所以我们需要使用post将其添加到消息队列中（因为Android是通过消息队列来实现同步的）同步操作。</p>
+<h4 id="step3-出来混，早晚要回去的"><a href="#step3-出来混，早晚要回去的" class="headerlink" title="step3. 出来混，早晚要回去的"></a>step3. 出来混，早晚要回去的</h4><p>有菜单展开的情况，那在某种操作下必然要恢复正常，即需求4的描述。如果点击已展开的Item，则关闭此Item，如果按下其他的Item，则关闭已展开的Item，通过对需求的理解，我们可以得出需要处理点击事件和按下事件。具体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 处理按下其他Item则关闭已展开的Item的情况（lastPosition表示已展开的Item position）</span><br><span class="line">if (lastPosition != -1 &amp;&amp; lastPosition != position) &#123;</span><br><span class="line">	// 获取已展开的Item的RootView</span><br><span class="line">    View openedItemView = getViewByPosition(listView, lastPosition);</span><br><span class="line">    if (openedItemView != null) &#123;</span><br><span class="line">        final HorizontalScrollView horizontalScrollView = 						((HorizontalScrollView)openedItemView.findViewById(R.id.horizontal_scrollview));</span><br><span class="line">        // 将已展开的Item置位</span><br><span class="line">        horizontalScrollView.smoothScrollTo(0, 0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：smoothScrollTo()是同步操作，直接使用就可以。这里需要说明一下获取ListView指定position的ItemView的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private View getViewByPosition(ListView listView, int position) &#123;</span><br><span class="line">		// 获取当前可见的第一个Item的position</span><br><span class="line">        int firstItemPos = listView.getFirstVisiblePosition();</span><br><span class="line">        // 获取最后一个可见的Item的position</span><br><span class="line">        int lastItemPos = firstItemPos + listView.getChildCount() - 1;</span><br><span class="line">        if (position &lt; firstItemPos || position &gt; lastItemPos) &#123;</span><br><span class="line">            return listView.getAdapter().getView(position, null, listView);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            int childIndex = position - firstItemPos;</span><br><span class="line">            return listView.getChildAt(childIndex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>刚开始获取指定position的ItemView的时候使用了listView.getChildAt(childIndex)， 结果在滑动到下一页的时候，点击Item就出现空指针的情况，看了下getChildAt()函数的源码，发现其返回的是只当前页可见的Item, 当然， getChildCount()返回也是当前页可见的Item的数量。</p>
+<p>处理完了第一种情况，接下来我们处理点击已展开的Item的情况，这个问题其实很明显，我们只需要在UP事件中处理即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 获取滑动距离（区分滑动和点击）</span><br><span class="line">float distance = Math.abs(event.getX() - downX);</span><br><span class="line">   if (distance == 0.0) &#123;</span><br><span class="line">   	//点击已展开的Item的情况</span><br><span class="line">       if (lastPosition == position) &#123;</span><br><span class="line">           v.post(new Runnable() &#123;</span><br><span class="line">               @Override</span><br><span class="line">               public void run() &#123;</span><br><span class="line">                   ((HorizontalScrollView)view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">                   lastPosition = -1;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125; else if (lastPosition == -1) &#123;</span><br><span class="line">       	// 没有Item展开，点击时直接响应点击事件</span><br><span class="line">          Toast.makeText(MainActivity.this, &quot;触发了点击事件&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">       	// 对按下其他Item导致已展开的Item关闭的情况，对lastPosition进行置位</span><br><span class="line">           lastPosition = -1;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="step4-有条不紊"><a href="#step4-有条不紊" class="headerlink" title="step4. 有条不紊"></a>step4. 有条不紊</h4><p>现在可以尝试我们的滑动删除了，但是发现竟然支持可以多点触控，即可以侧滑多个Item。So easy! 只要我们关闭listView的多点触控即可解决此问题。在父布局的ListView中添加如下属性即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:splitMotionEvents=&quot;false&quot;</span><br></pre></td></tr></table></figure>
+<p>至此，我们通过HorizontalScrollView实现了QQ侧滑删除的全部需求（通过不同的Item加载不同的菜单很简单，根据类型对菜单项进行显示与隐藏即可）。</p>
+<h3 id="效果："><a href="#效果：" class="headerlink" title="效果："></a>效果：</h3><p><img src="http://image16-c.poco.cn/mypoco/myphoto/20160428/20/17890429620160428200336047.jpg?1080x1920_120" alt=""></p>
+<h3 id="源码："><a href="#源码：" class="headerlink" title="源码："></a>源码：</h3><p>为了缩小文章的篇幅，在此我们只展示Adapter的getView的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public android.view.View getView(final int position, android.view.View convertView, final ViewGroup parent) &#123;</span><br><span class="line">        ViewHolder holder;</span><br><span class="line">        if (convertView == null) &#123;</span><br><span class="line">            holder = new ViewHolder();</span><br><span class="line">            convertView = getLayoutInflater().inflate(R.layout.item_layout, parent, false);</span><br><span class="line">            holder.icon = (ImageView) convertView.findViewById(R.id.icon);</span><br><span class="line">            holder.nameText = (TextView) convertView.findViewById(R.id.name_text);</span><br><span class="line">            holder.contentText = (TextView) convertView.findViewById(R.id.content_text);</span><br><span class="line">            holder.timeText = (TextView) convertView.findViewById(R.id.time_text);</span><br><span class="line">            holder.contentLayout = (LinearLayout) convertView.findViewById(R.id.content_layout);</span><br><span class="line">            holder.horizontalScrollView = (HorizontalScrollView) convertView.findViewById(R.id.horizontal_scrollview);</span><br><span class="line">            convertView.setTag(holder);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            holder = (ViewHolder) convertView.getTag();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.contentLayout.getLayoutParams();</span><br><span class="line">        params.width = getResources().getDisplayMetrics().widthPixels;</span><br><span class="line">        holder.contentLayout.setLayoutParams(params);</span><br><span class="line">        holder.icon.setImageResource(data.get(position).icon);</span><br><span class="line">        holder.nameText.setText(data.get(position).name);</span><br><span class="line">        holder.contentText.setText(data.get(position).content);</span><br><span class="line">        holder.timeText.setText(data.get(position).time);</span><br><span class="line"></span><br><span class="line">        holder.horizontalScrollView.setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onTouch(View v, MotionEvent event) &#123;</span><br><span class="line">                final View view = v;</span><br><span class="line">                switch (event.getAction()) &#123;</span><br><span class="line">                    case MotionEvent.ACTION_DOWN:</span><br><span class="line">                        downX = event.getX();</span><br><span class="line">                        if (lastPosition != -1 &amp;&amp; lastPosition != position) &#123;</span><br><span class="line">                            View openedItemView = getViewByPosition(listView, lastPosition);</span><br><span class="line">                            if (openedItemView != null) &#123;</span><br><span class="line">                                final HorizontalScrollView horizontalScrollView = ((HorizontalScrollView)openedItemView.findViewById(R.id.horizontal_scrollview));</span><br><span class="line">                                horizontalScrollView.smoothScrollTo(0, 0);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        break;</span><br><span class="line">                    case MotionEvent.ACTION_MOVE:</span><br><span class="line">                        if (event.getX() &gt; lastXOffset) &#123;</span><br><span class="line">                            isRight = true;</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            isRight = false;</span><br><span class="line">                        &#125;</span><br><span class="line">                        lastXOffset = event.getX();</span><br><span class="line">                        break;</span><br><span class="line">                    case MotionEvent.ACTION_UP:</span><br><span class="line">                        float distance = Math.abs(event.getX() - downX);</span><br><span class="line">                        if (distance == 0.0) &#123;</span><br><span class="line">                            if (lastPosition == position) &#123;</span><br><span class="line">                                v.post(new Runnable() &#123;</span><br><span class="line">                                    @Override</span><br><span class="line">                                    public void run() &#123;</span><br><span class="line">                                        ((HorizontalScrollView)view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">                                        lastPosition = -1;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;);</span><br><span class="line">                            &#125; else if (lastPosition == -1) &#123;</span><br><span class="line">                               Toast.makeText(MainActivity.this, &quot;触发了点击事件&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">                            &#125; else &#123;</span><br><span class="line">                                lastPosition = -1;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; else if (distance &gt; 0 &amp;&amp; distance &lt; dpToPx(70)) &#123;</span><br><span class="line">                            v.post(new Runnable() &#123;</span><br><span class="line">                                @Override</span><br><span class="line">                                public void run() &#123;</span><br><span class="line">                                    if (isRight) &#123;</span><br><span class="line">                                        ((HorizontalScrollView) view).fullScroll(View.FOCUS_RIGHT);</span><br><span class="line">                                    &#125; else &#123;</span><br><span class="line">                                        ((HorizontalScrollView)view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;);</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            v.post(new Runnable() &#123;</span><br><span class="line">                                @Override</span><br><span class="line">                                public void run() &#123;</span><br><span class="line">                                    if (isRight) &#123;</span><br><span class="line">                                        ((HorizontalScrollView) view).fullScroll(View.FOCUS_LEFT);</span><br><span class="line">                                    &#125; else &#123;</span><br><span class="line">                                        lastPosition = position;</span><br><span class="line">                                        ((HorizontalScrollView)view).fullScroll(View.FOCUS_RIGHT);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        break;</span><br><span class="line">                    default:</span><br><span class="line">                        break;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        return convertView;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="源码下载："><a href="#源码下载：" class="headerlink" title="源码下载："></a>源码下载：</h3><p>下载地址：<a href="https://github.com/JuHonggang/SlidingDeleteDemo.git" target="_blank" rel="external">HorizontalScrollView仿QQ侧滑删除Demo</a></p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2016年05月03日 - 17时13分</p>
+        <p><span>最后更新:</span>2016年05月09日 - 20时20分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/" title="HorizontalScrollView高仿QQ滑动删除">http://juhonggang.github.io/2016/05/03/HorizontalScrollView实现QQ侧滑删除/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2016/05/03/HorizontalScrollView实现QQ侧滑删除/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/05/03/ListView加载不同Item布局/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          ListView加载不同Item布局
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/05/03/ListView加载不同Item布局/" title="上一篇: ListView加载不同Item布局">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android中View滑动方式的选择 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中View滑动方式的选择">
+<meta property="og:url" content="http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
+<meta property="og:updated_time" content="2017-01-08T03:39:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中View滑动方式的选择">
+<meta name="twitter:description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 13.33px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Android中View滑动方式的选择" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/07/Android中View滑动方式的选择/" class="article-date">
+      <time datetime="2017-01-07T01:33:17.000Z" itemprop="datePublished">2017-01-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android中View滑动方式的选择
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android移动方案/">Android移动方案</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。</p>
+<a id="more"></a>
+<ol>
+<li>重写View的onTouchEvent或设置View的setOnTouchListener()，在MotionEvent.MotionEvent.ACTION_MOVE中做相应的滑动处理；</li>
+<li>采用动画的方式（View动画或属性动画）实现；</li>
+</ol>
+<p>不论哪种方式，其实质都是可以调用scrollTo/scrollBy，或者setLayoutParams()或layout()来实现的。</p>
+<p>下面我们对这几种情况进行详细说明:</p>
+<p>由于onTouchEvent和setOnTouchListener()可实现相同的功能，但setOnTouchListener()使用起来更简单，因为不需要自定义View， 同时setOnTouchListener中的onTouch比onTouchEvent优先执行，从View的dispatchTouchEvent()就可看出：</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
+    if (mInputEventConsistencyVerifier != null) {
+        mInputEventConsistencyVerifier.onTouchEvent(event, 0);
+    }
+
+    if (onFilterTouchEventForSecurity(event)) {
+        //noinspection SimplifiableIfStatement
+        ListenerInfo li = mListenerInfo;
+        if (li != null &amp;&amp; li.mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED
+                &amp;&amp; li.mOnTouchListener.onTouch(this, event)) {
+            return true;
+        }
+        // 没有设置mOnTouchListener的时候再执行onToucheEvent()
+        if (onTouchEvent(event)) {
+            return true;
+        }
+    }
+
+    if (mInputEventConsistencyVerifier != null) {
+        mInputEventConsistencyVerifier.onUnhandledEvent(event, 0);
+    }
+    return false;
+}
+</code></pre><p>那么下面就以setOnToucheListener()为例，来实现第一种滑动方案：</p>
+<pre><code>view.setOnTouchListener(new View.OnTouchListener() {
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                    startX = motionEvent.getX();
+                startY = motionEvent.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                    float distanceX = motionEvent.getX() - startX;
+                float distanceY = motionEvent.getY() - startY;
+                // 处理滑动事件，其滑动距离为distance
+                startX = motionEvent.getX();
+                startY = moitonEvent.getY();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+});
+</code></pre><p>上面的代码是实现滑动的一个基本框架，其滑动方式的差异就存在于处理滑动事件的部分。下面我们通过具体的方式来实现：</p>
+<h3 id="scrollTo-scrollBy方式"><a href="#scrollTo-scrollBy方式" class="headerlink" title="scrollTo/scrollBy方式"></a>scrollTo/scrollBy方式</h3><p>在使用这种方式的时候需要注意以下问题：</p>
+<ol>
+<li><p>它引起的移动仅仅是内容的移动，View本身是不移动的。例如，对于TextView，使用这种方式滑动时，移动的只是文字，而TextView本身不会移动；而对于ViewGroup, 移动的当然也就是childView了。</p>
+</li>
+<li><p>scrollTo表示移动至指定位置，scrollBy表示移动指定偏移量。这两个函数中的参数需要特别注意一下，参数&gt;0表示沿着坐标轴反方向移动，反之向坐标轴正方向移动，与我们理解的坐标总是反的。</p>
+</li>
+<li><p>由于移动的是View的内容而不是View本身，所以移动之后View的事件触发区域还停留在移动之前的位置，也就是说，移动之后，View的内容所在的位置可能会出现无法响应事件的情况。</p>
+</li>
+</ol>
+<p>了解了上面的基本知识，下面我们来通过这种方式来完善我们的代码，下面我们只展示处理滑动事件的代码：</p>
+<pre><code>scrollBy(distanceX, distanceY);
+/* 当然也可以通过scrollTo来实现
+int scrollX = view.getScrollX();
+int scrollY = view.getScrollY();
+scrollTo(scrollX + distanceX, scrollY + distanceY);
+*/
+</code></pre><p>毫无疑问，scrollBy比scrollTo实现起来要简单，毕竟scrollBy也是通过scrollTo来实现的，源码如下：</p>
+<pre><code>public void scrollBy(int x, int y) {
+    scrollTo(mScrollX + x, mScrollY + y);
+}
+</code></pre><p>这种方式实现滑动很简单，但局限性也很大，因为它只能移动View的内容，而不能移动View本身，所以经常使用在ViewGroup的滑动处理中。</p>
+<h3 id="LayoutParams方式"><a href="#LayoutParams方式" class="headerlink" title="LayoutParams方式"></a>LayoutParams方式</h3><p>在开发过程中，我们经常遇到需要动态修改View位置或大小的情况，一般我们都是通过获取其LayoutParams，然后设置相应的属性，最后调用setLayoutParams()来完成。那在滑动处理过程中，也可以使用这种方式，动态地修改其LayoutParams的属性来实现滑动。具体代码如下：</p>
+<pre><code>ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+params.leftMargin += distanceX;
+params.topMargin += distanceY;
+view.setLayoutParams(params);
+</code></pre><p>与scrollBy/scrollTo不同的是，这种方式移动的是View本身，而不是其内容。同时，其中的distanceX/distanceY大于0表示向坐标轴正方向移动，反之表示向坐标轴反方向移动。</p>
+<h3 id="调用View的layout-方法"><a href="#调用View的layout-方法" class="headerlink" title="调用View的layout()方法"></a>调用View的layout()方法</h3><p>View的layout()方法用来动态设置View的边距，通过重复调用这个方法，也可以达到滑动的方式。具体代码如下：</p>
+<pre><code>view.layout((int)(view.getLeft() + distanceX), (int)(view.getTop() + distanceY, 0, 0));
+view.requestLayout();    // 注意调用layout后需要调用requestLayout刷新布局
+</code></pre><p>与LayoutParams方式一样，这种方式移动的也是View本身。从本质上来讲，这两种方式没什么区别，都是通过影响Layout过程来实现的。</p>
+<p>从onLayout()的源码中我们可以看出， 影响View位置的几个因素：</p>
+<ol>
+<li>对齐方式；</li>
+<li>边距，如left, top, right, bottom;</li>
+<li>params参数的margin属性；</li>
+<li>parentView的padding属性;</li>
+</ol>
+<p>理论上来将，修改这几种因素都可引起View位置的变化，但是对齐方式局限性太大，而且各ViewGroup还存在差异，显然不可取。修改边距其实就是layout()方式，params参数当然也就是LayoutParams方式。而parentView的padding属性影响所有的childView, 所以不能通过这种方式来修改某个View的位置。</p>
+<p>以上方式都是在涉及滑动手势的情况下的解决方案，其实在日常开发中，我们还会遇到其他需要View移动的场景，如点击引起View的移动。在这种情况下，我们就可以考虑使用动画方式来解决了。</p>
+<h3 id="View动画方式"><a href="#View动画方式" class="headerlink" title="View动画方式"></a>View动画方式</h3><p>Android提供了缩放，渐变，平移和旋转四种View动画，这种动画的特点是可重复播放，但动画结束后View将恢复位置。</p>
+<h3 id="属性动画方式"><a href="#属性动画方式" class="headerlink" title="属性动画方式"></a>属性动画方式</h3><p>属性动画可认为是View动画的扩充，因为它可以通过渐变的方式来修改View的属性。这样就可解决scrollBy/scrollTo/LayoutParmas/layout()这几种方式单次移动引起的动画的生硬感。例如：将一个view向右移动200px,这里我们选择layoutParams的方式，那么伪代码应该如下所示：</p>
+<pre><code>ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+params.leftMargin += 200;
+view.setLayoutParams(leftMargin);
+</code></pre><p>如果这种改变是在点击事件下触发的，那么就会发现view瞬间向右移动了200px, 这种感觉很生硬，那如何解决了，这里属性动画就派上用场了。修改代码如下：</p>
+<pre><code>ValueAnimator animator = ValueAnimator.ofInt(200);
+animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+        int value = (int) valueAnimator.getAnimatedValue();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+        params.leftMargin += (value - lastValue);
+        view.setLayoutParams(leftMargin);
+        lastValue = value;
+    }
+});
+</code></pre><p>属性动画将根据动画的执行时间和插值器将200px分成若干份，这样通过多次setLayoutParams的方式就实现了平滑移动的效果。</p>
+<p>注意：本文的主线是分析View的滑动方案的选择，所以不对View动画和属性动画做更详细的介绍，对于这部分，更详细的内容可自行了解。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>通过对Android提供的几种移动方案的分析，我们可以总结出以下结论：</p>
+<ol>
+<li>如果需要跟随手势移动，移动的如果是View的内容（针对ViewGroup是childView）， 那么选择scrollBy/scrollTo来处理；如果移动的是View本身，那么选择LayoutParams或者layout()的方式来实现；</li>
+<li>如果是单次移动，且移动完成后恢复位置或重复性的移动效果，使用View动画或动画集合实现；</li>
+<li>如果是点击，长按，双击等事件引起的View移动，使用属性动画是一个不错的选择；</li>
+</ol>
+<p>以上仅是个人使用过程中的一些简单总结，如有不恰当之处，欢迎指正~</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2017年01月07日 - 09时33分</p>
+        <p><span>最后更新:</span>2017年01月08日 - 11时39分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/01/07/Android中View滑动方式的选择/" title="Android中View滑动方式的选择">http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/08/26/简化View的背景定义/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          简化View的背景定义
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/09/UIL源码解析之内存缓存/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UIL源码解析之内存缓存</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/08/26/简化View的背景定义/" title="上一篇: 简化View的背景定义">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/11/09/UIL源码解析之内存缓存/" title="下一篇: UIL源码解析之内存缓存">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

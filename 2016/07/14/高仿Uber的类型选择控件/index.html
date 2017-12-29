@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>高仿Uber的类型选择控件 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用过Uber的朋友应该都发现了它的选择控件，感觉很人性化。之前的项目中也用到了，当时是通过重写SeekBar的onDraw方法来实现的。实现之后发现在魅族手机上，监听滑动过程时onStartTrackingTouch中获取的progress总是有问题，不能实现当时滑动时thumb动态变化的需求，随后又重写了SeekBar的onTouchEvent方法，动态对OnSeekBarChangeList">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高仿Uber的类型选择控件">
+<meta property="og:url" content="http://juhonggang.github.io/2016/07/14/高仿Uber的类型选择控件/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="使用过Uber的朋友应该都发现了它的选择控件，感觉很人性化。之前的项目中也用到了，当时是通过重写SeekBar的onDraw方法来实现的。实现之后发现在魅族手机上，监听滑动过程时onStartTrackingTouch中获取的progress总是有问题，不能实现当时滑动时thumb动态变化的需求，随后又重写了SeekBar的onTouchEvent方法，动态对OnSeekBarChangeList">
+<meta property="og:image" content="http://7xrqzm.com1.z0.glb.clouddn.com/level_view.png">
+<meta property="og:updated_time" content="2016-07-14T07:10:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高仿Uber的类型选择控件">
+<meta name="twitter:description" content="使用过Uber的朋友应该都发现了它的选择控件，感觉很人性化。之前的项目中也用到了，当时是通过重写SeekBar的onDraw方法来实现的。实现之后发现在魅族手机上，监听滑动过程时onStartTrackingTouch中获取的progress总是有问题，不能实现当时滑动时thumb动态变化的需求，随后又重写了SeekBar的onTouchEvent方法，动态对OnSeekBarChangeList">
+<meta name="twitter:image" content="http://7xrqzm.com1.z0.glb.clouddn.com/level_view.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 13.33px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-高仿Uber的类型选择控件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/14/高仿Uber的类型选择控件/" class="article-date">
+      <time datetime="2016-07-14T07:05:23.000Z" itemprop="datePublished">2016-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      高仿Uber的类型选择控件
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android-自定义控件/">Android, 自定义控件</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-类型选择控件/">Android, 类型选择控件</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>使用过Uber的朋友应该都发现了它的选择控件，感觉很人性化。之前的项目中也用到了，当时是通过重写SeekBar的onDraw方法来实现的。实现之后发现在魅族手机上，监听滑动过程时onStartTrackingTouch中获取的progress总是有问题，不能实现当时滑动时thumb动态变化的需求，随后又重写了SeekBar的onTouchEvent方法，动态对OnSeekBarChangeListener进行了调用。最后虽然实现了需求，但这个控件却有很多不足之处，所以这次直接继承View来实现了一款类似的等级选择控件。</p>
+<a id="more"></a>
+<h3 id="效果图："><a href="#效果图：" class="headerlink" title="效果图："></a>效果图：</h3><p><img src="http://7xrqzm.com1.z0.glb.clouddn.com/level_view.png" alt=""></p>
+<h3 id="实现过程："><a href="#实现过程：" class="headerlink" title="实现过程："></a>实现过程：</h3><p>对于这种控件，其实主要就是重写onDraw方法，绘制点，绘制连线，绘制thumb。然后重写onTouchEvent，在滑动过程中动态改变属性并进行刷新View即可。</p>
+<h3 id="属性："><a href="#属性：" class="headerlink" title="属性："></a>属性：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;declare-styleable name=&quot;LevelLayout&quot;&gt;</span><br><span class="line">        &lt;!-- the count of step that equals levels sub one--&gt;</span><br><span class="line">        &lt;attr name=&quot;stepCount&quot; format=&quot;integer&quot;/&gt;</span><br><span class="line">        &lt;!-- the default position of chosen level --&gt;</span><br><span class="line">        &lt;attr name=&quot;defaultPos&quot; format=&quot;integer&quot;/&gt;</span><br><span class="line">        &lt;!-- the icon of level --&gt;</span><br><span class="line">        &lt;attr name=&quot;thumb&quot; format=&quot;reference&quot;/&gt;</span><br><span class="line">        &lt;!-- the width of level&apos;s icon --&gt;</span><br><span class="line">        &lt;attr name=&quot;thumbWidth&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">        &lt;!-- the height of level&apos;s icon --&gt;</span><br><span class="line">        &lt;attr name=&quot;thumbHeight&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">        &lt;!-- the width of line between level and level --&gt;</span><br><span class="line">        &lt;attr name=&quot;lineWidth&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">        &lt;!-- the color of line between level and level --&gt;</span><br><span class="line">        &lt;attr name=&quot;lineColor&quot; format=&quot;color&quot;/&gt;</span><br><span class="line">        &lt;!-- the radius of point where is located level --&gt;</span><br><span class="line">        &lt;attr name=&quot;pointRadius&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">        &lt;!-- the color of point where is located level --&gt;</span><br><span class="line">        &lt;attr name=&quot;pointColor&quot; format=&quot;color&quot;/&gt;</span><br><span class="line">        &lt;!-- the speed of thumb scrolling --&gt;</span><br><span class="line">        &lt;attr name=&quot;scrollDuration&quot; format=&quot;integer&quot;/&gt;</span><br><span class="line">    &lt;/declare-styleable&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="onDraw过程："><a href="#onDraw过程：" class="headerlink" title="onDraw过程："></a>onDraw过程：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    int height = getHeight() - getPaddingTop() - getPaddingBottom();</span><br><span class="line">    int startX = getPaddingLeft();</span><br><span class="line">    int centerHeight = height / 2;</span><br><span class="line">    </span><br><span class="line">    // set paint of line</span><br><span class="line">    Paint linePaint = new Paint();</span><br><span class="line">    linePaint.setStrokeWidth(lineWidth);</span><br><span class="line">    linePaint.setColor(lineColor);</span><br><span class="line">    linePaint.setAntiAlias(true);</span><br><span class="line">    </span><br><span class="line">    // set paint of point</span><br><span class="line">    Paint pointPaint = new Paint();</span><br><span class="line">    pointPaint.setStrokeWidth(pointRadius);</span><br><span class="line">    pointPaint.setColor(pointColor);</span><br><span class="line">    pointPaint.setAntiAlias(true);</span><br><span class="line">    </span><br><span class="line">    // get the length of step</span><br><span class="line">    stepLength = (getWidth() - getPaddingLeft() - getPaddingRight() - thumbWidth) * 1.0f / stepCount;</span><br><span class="line">    if (thumb != null) &#123;</span><br><span class="line">        final Bitmap bitmap = Bitmap.createScaledBitmap(drawableToBitmap(thumb), (int) thumbWidth, (int) thumbHeight, true);</span><br><span class="line">        float bitmapX = startX += bitmap.getWidth() / 2;</span><br><span class="line">        canvas.drawLine(startX, centerHeight, startX + stepLength*stepCount, centerHeight, linePaint);</span><br><span class="line">        for (int i = 0; i &lt; stepCount; i++) &#123;</span><br><span class="line">            if (defaultPos == i) &#123;</span><br><span class="line">                bitmapX = startX - bitmap.getWidth() / 2 + offset;</span><br><span class="line">            &#125;</span><br><span class="line">            canvas.drawCircle(startX, centerHeight, pointRadius, pointPaint);</span><br><span class="line">            startX += stepLength;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        canvas.drawCircle(startX, centerHeight, pointRadius, pointPaint);</span><br><span class="line">        if (defaultPos == stepCount) &#123;</span><br><span class="line">            bitmapX = startX - bitmap.getWidth() / 2 + offset;</span><br><span class="line">        &#125;</span><br><span class="line">        canvas.drawBitmap(bitmap, bitmapX, (getHeight() - thumbHeight) / 2, pointPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="滑动过程："><a href="#滑动过程：" class="headerlink" title="滑动过程："></a>滑动过程：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">    switch (event.getAction()) &#123;</span><br><span class="line">        case MotionEvent.ACTION_DOWN:</span><br><span class="line">            oldPosition = defaultPos;</span><br><span class="line">            startPos = event.getX();</span><br><span class="line">            startX = event.getX();</span><br><span class="line">            defaultPos = (int)((startPos - getPaddingLeft()) / stepLength);</span><br><span class="line">            listener.onStartTrackingTouch();</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_MOVE:</span><br><span class="line">            // avoid thumb scrolls to extra area</span><br><span class="line">            if (event.getX() &gt; 0 &amp;&amp; event.getX() &lt; getWidth()-thumbWidth/2) &#123;</span><br><span class="line">                offset += (event.getX() - startX);</span><br><span class="line">                startX = event.getX();</span><br><span class="line">                Log.i(&quot;out&quot;, &quot;X===&quot; + event.getX() + &quot; offset==&quot; + offset);</span><br><span class="line">                if (Math.abs(offset) &gt; DEFAULT_CLICK_RANGE) &#123;</span><br><span class="line">                    listener.onLevelChanged((int) (event.getX() - thumbWidth / 2 - getPaddingLeft()));</span><br><span class="line">                    invalidate();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_UP:</span><br><span class="line">            // get latest position of thumb</span><br><span class="line">            defaultPos = (int) ((event.getX() - getPaddingLeft()) / stepLength);</span><br><span class="line">            // avoid thumb scrolls to extra area</span><br><span class="line">            if (event.getX() &gt; 0 &amp;&amp; event.getX() &lt; getWidth()) &#123;</span><br><span class="line">                // get the distance of up and down</span><br><span class="line">                offset = event.getX() - startPos;</span><br><span class="line">                if (Math.abs(offset) &lt; DEFAULT_CLICK_RANGE) &#123; // thumb&apos;s click event</span><br><span class="line">                    offset = (event.getX() - getPaddingLeft()) % stepLength;</span><br><span class="line">                    if (offset &gt; stepLength / 2) &#123;</span><br><span class="line">                        defaultPos++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    final float distance = (oldPosition - defaultPos) * stepLength;</span><br><span class="line">                    if (distance != 0) &#123;</span><br><span class="line">                        ValueAnimator animator = ValueAnimator.ofFloat(distance, 0).setDuration(scrollDuration);</span><br><span class="line">                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                                offset = (float) animation.getAnimatedValue();</span><br><span class="line">                                invalidate();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                        animator.start();</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        listener.onLevelClick();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else if (offset &gt; DEFAULT_CLICK_RANGE) &#123; // scroll from left to right</span><br><span class="line">                    offset = offset % stepLength;</span><br><span class="line">                    if (offset &gt; stepLength / 2 &amp;&amp; defaultPos &lt; stepCount) &#123;</span><br><span class="line">                        defaultPos++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123; // scroll from right to left</span><br><span class="line">                    offset = offset % stepLength;</span><br><span class="line">                    if (Math.abs(offset) &lt; stepLength / 2 &amp;&amp; defaultPos &lt; stepCount) &#123;</span><br><span class="line">                        defaultPos++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                listener.onStopTrackingTouch();</span><br><span class="line">            &#125;</span><br><span class="line">            offset = 0;</span><br><span class="line">            invalidate();</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h3><p>和其他自定义控件一样，在布局文件中直接引用即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.sxu.levellayout.LevelView</span><br><span class="line">    android:id=&quot;@+id/level_view&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;50dp&quot;</span><br><span class="line">    android:background=&quot;#FFFFFF&quot;</span><br><span class="line">    level:thumb=&quot;@drawable/star_3&quot;</span><br><span class="line">    level:thumbWidth=&quot;30dp&quot;</span><br><span class="line">    level:thumbHeight=&quot;30dp&quot;</span><br><span class="line">    level:pointRadius=&quot;6dp&quot;</span><br><span class="line">    level:pointColor=&quot;#eeeeee&quot;</span><br><span class="line">    level:lineWidth=&quot;4dp&quot;</span><br><span class="line">    level:lineColor=&quot;#eeeeee&quot;</span><br><span class="line">    level:stepCount=&quot;3&quot;</span><br><span class="line">    level:defaultPos=&quot;2&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<p>当然，对于这些自定义属性也可以动态进行设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">levelView.setThumb(getResources().getDrawable(icon[3]));</span><br><span class="line">levelView.setThumbWidth(90);</span><br><span class="line">levelView.setThumbHeight(90);</span><br><span class="line">levelView.setPointColor(Color.parseColor(&quot;#FF0000&quot;));</span><br><span class="line">levelView.setLineColor(Color.parseColor(&quot;#00FF00&quot;));</span><br><span class="line">levelView.setLineWidth(4);</span><br><span class="line">levelView.setPointRadius(50);</span><br><span class="line">levelView.setDefaultPos(1);</span><br><span class="line">levelView.setStepCount(2);</span><br><span class="line">levelView.setScrollDuration(300);</span><br></pre></td></tr></table></figure>
+<p>对于滑动过程中需要做的工作，只需要实现OnLevelChangeListener接口即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public interface OnLevelChangeListener &#123;</span><br><span class="line">    /**</span><br><span class="line">     * It is called when thumb scrolling.</span><br><span class="line">     * @param progress means current position</span><br><span class="line">     */</span><br><span class="line">    void onLevelChanged(int progress);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * It is called when thumb is pressed.</span><br><span class="line">     */</span><br><span class="line">    void onStartTrackingTouch();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * It is called when thumb is up.</span><br><span class="line">     */</span><br><span class="line">    void onStopTrackingTouch();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * It is called when thumb is clicked.</span><br><span class="line">     */</span><br><span class="line">    void onLevelClick();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="源码下载："><a href="#源码下载：" class="headerlink" title="源码下载："></a>源码下载：</h3><p><a href="https://github.com/JuHonggang/LevelView.git" target="_blank" rel="external">LevelView源码</a></p>
+<p>PS: 由于作者水平有限，如意见或建议，欢迎吐槽。。。</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2016年07月14日 - 15时05分</p>
+        <p><span>最后更新:</span>2016年07月14日 - 15时10分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/14/高仿Uber的类型选择控件/" title="高仿Uber的类型选择控件">http://juhonggang.github.io/2016/07/14/高仿Uber的类型选择控件/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2016/07/14/高仿Uber的类型选择控件/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/07/18/ScrollView获取滑动距离/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          ScrollView获取滑动距离
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/25/添加帮助文档到man搜索路径/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">添加帮助文档到man搜索路径</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/18/ScrollView获取滑动距离/" title="上一篇: ScrollView获取滑动距离">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/05/25/添加帮助文档到man搜索路径/" title="下一篇: 添加帮助文档到man搜索路径">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
