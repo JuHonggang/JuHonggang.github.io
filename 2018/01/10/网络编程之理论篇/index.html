@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网络编程之理论篇.md | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网络通信作为互联网的技术支持，已被广泛应用在软件开发中，无论是Web，服务端，客户端还是桌面应用，都是必须掌握的一门技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程之理论篇.md">
+<meta property="og:url" content="http://juhonggang.github.io/2018/01/10/网络编程之理论篇/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="网络通信作为互联网的技术支持，已被广泛应用在软件开发中，无论是Web，服务端，客户端还是桌面应用，都是必须掌握的一门技术。">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/tcp_data_flow.png">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/data_flow">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/tcp_status">
+<meta property="og:updated_time" content="2018-01-21T07:27:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络编程之理论篇.md">
+<meta name="twitter:description" content="网络通信作为互联网的技术支持，已被广泛应用在软件开发中，无论是Web，服务端，客户端还是桌面应用，都是必须掌握的一门技术。">
+<meta name="twitter:image" content="http://od186sz8s.bkt.clouddn.com/tcp_data_flow.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/Http/" style="font-size: 13.33px;">Http</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 16.67px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/网络编程/" style="font-size: 10px;">网络编程</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-网络编程之理论篇" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/10/网络编程之理论篇/" class="article-date">
+      <time datetime="2018-01-10T13:25:25.000Z" itemprop="datePublished">2018-01-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网络编程之理论篇.md
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Http/">Http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/">Socket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络编程/">网络编程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>网络通信作为互联网的技术支持，已被广泛应用在软件开发中，无论是Web，服务端，客户端还是桌面应用，都是必须掌握的一门技术。</p>
+<a id="more"></a>
+<h3 id="什么是网络编程？"><a href="#什么是网络编程？" class="headerlink" title="什么是网络编程？"></a>什么是网络编程？</h3><pre><code>在软件开发层面实现远程数据交换的编程技术。
+</code></pre><h3 id="网络编程的主要场景"><a href="#网络编程的主要场景" class="headerlink" title="网络编程的主要场景"></a>网络编程的主要场景</h3><ul>
+<li>基于Http/Https的web，移动端的开发；</li>
+<li>基于TCP/UDP的IM，桌面应用的开发；</li>
+<li>自定义协议的开发。</li>
+</ul>
+<p>要熟悉网络编程，首先需要学习网络协议的相关知识。</p>
+<h3 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h3><p>什么网络协议呢？网络协议是为网络中进行数据交换定义的规则，以实现按此规范进行传输数据，就可在整个互联网中进行数据交换的目标。所以说网络协议是网络通信的基础。</p>
+<p>网络协议中其中最著名就是TCP/IP协议族。TCP/IP协议族通常被认为是一个四层的协议系统。从上到下依次为：</p>
+<ul>
+<li>应用层：包括所有和应用程序协同工作，利用基础网络交换应用程序专用的数据协议，如Telnet, FTP, Http等；</li>
+<li>运输层：负责为应用层提供端到端的通信支持，包含TCP和UDP协议；</li>
+<li>网络层：负责数据包在网络中的传输，包含IP， ICMP和IGMP协议；</li>
+<li>链路层：用以处理与物理设备的交互细节，对应于操作系统中的设备驱动程序；</li>
+</ul>
+<p>从TCP/IP协议族各层次的职责来看，网路数据的传递是从上到下依次传递。以Http协议为为例，具体的数据传输过程如图所示:</p>
+<p><img src="http://od186sz8s.bkt.clouddn.com/tcp_data_flow.png" alt="数据传输过程"></p>
+<p>当然，这只是数据的流向，实际上网络数据在传输过程中需要封装与分解，具体的过程如图所示（图片来源于百度图片）：</p>
+<p><img src="http://od186sz8s.bkt.clouddn.com/data_flow" alt=""></p>
+<p>简单来说，数据从本机上传到网络之前，会在TCP/IP协议族的每一层添加协议首部，到达目标主机后，目标主机再进行分解，从而获取需要的数据。</p>
+<p>在众多的网络协议中，使用最广泛的应该就是TCP协议（传输控制协议）了，它是一种面向连接，可靠的，基于字节流的传输层协议。其运行过程分为三个阶段：建立连接、交换数据、断开连接。</p>
+<h3 id="TCP连接的建立与终止"><a href="#TCP连接的建立与终止" class="headerlink" title="TCP连接的建立与终止"></a>TCP连接的建立与终止</h3><p>在使用TCP协议交换数据前，需先建立一条连接，在不需要发送数据的时候，需要断开连接，以释放资源。</p>
+<h4 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h4><p>TCP协议建立连接时需要三次握手，其过程可使用以下场景来描述：</p>
+<pre><code>面试官：说一下TCP建立连接时三次握手的过程。
+小明： 三次握手？
+面试官： 嗯。
+小明：握手完成了。
+面试官：what?
+</code></pre><p>没错，从小明开始问三次握手到说握手完成就是三次握手的过程，具体的过程如下：</p>
+<ol>
+<li>客户端发向服务端发送一个SYN段，以告知客户端要连接服务端的指定端口；</li>
+<li>服务端收到客户端的报文后，返回一个对客户端报文进行确认的ack段（SYN+1）和一个表示服务端报文的SYN段；</li>
+<li>客户端收到服务端发送的报文后，对服务端发送一个ack（服务端的SYN+1），至此，客户端和服务端就建立了一条连接。</li>
+</ol>
+<blockquote>
+<p>为什么需要3次握手而不是2次呢？</p>
+</blockquote>
+<pre><code>因为客户端收到服务端的应答后，知道连接已建立成功，但是服务端并不知道自己发送的确认报文客户端是否收到，
+所以需要客户端对服务端的报文进行确认。
+</code></pre><blockquote>
+<p>服务端一定能收到客户端发送的确认报文么？</p>
+</blockquote>
+<pre><code>不一定，如果收不到，那么连接就不会建立，所以，3次握手只是理论上确保建立连接的次数。那能否通过4次握手呢？
+不行，再握下去就是鸡生蛋，蛋生鸡的问题了。
+</code></pre><h4 id="断开连接"><a href="#断开连接" class="headerlink" title="断开连接"></a>断开连接</h4><p>TCP断开连接时需要四次握手，为什么需要4次呢？这是由于TCP半关闭的性质造成的。所谓半关闭，就是可以发送数据，却不能接收数据或只能接收数据，不能发送数据。</p>
+<p>四次握手的过程：（由于主动断开连接可发送在客户端，也可发送在服务端，所以下面以A，B来区分两端）</p>
+<ol>
+<li>A端向B端发送一个FIN, 告知A端即将断开连接；</li>
+<li>B端收到A端发送的FIN后发送一个ack对其进行确认;</li>
+<li>随后B端向再A端发送一个FIN，以告知B端也即将断开连接；</li>
+<li>A端时候到B端的FIN报文后，对其发送一个ack以示确认。</li>
+</ol>
+<blockquote>
+<p>B端在对A端进行确认的时候为什么不同时发一个FIN呢？<br>可以同时发。分开发是为了考虑B端在对A端确认后，可能还会给A继续发送数据的情况。</p>
+</blockquote>
+<h3 id="TCP的状态变迁过程"><a href="#TCP的状态变迁过程" class="headerlink" title="TCP的状态变迁过程"></a>TCP的状态变迁过程</h3><p>下面以一张图来描述TCP的状态变迁过程(图片来自百度图片)</p>
+<p><img src="http://od186sz8s.bkt.clouddn.com/tcp_status" alt=""></p>
+<p>图片中的所有状态对应于TCP的建立和连接过程，下面简单介绍一下这几种状态：</p>
+<pre><code>LISTEN: 服务端状态，表示服务端正在等待客户端的连接请求，处于监听状态；
+
+SYN收到：服务端状态，服务端已收到客户端的连接请求，并对客户端的请求发送了ACK确认（第二次握手完成）；
+
+SYN_SENT: 客户端状态，客户端发送SYN或数据后的状态（第一次握手完成）；
+
+ESTABLISHED: 客户端对服务端的SYN进行确认后处于ESTABLISHED，服务端收到客户端发送的ACK后也会处于
+             ESTABLISHED状态（三次握手完成后的状态）；
+
+FIN_WAIT_1: 主动关闭的一端的状态，发送FIN后的状态（断开连接时的第一次握手完成）；
+
+FIN_WAIT_2: 主动关闭的一端的状态，收到另一端的ACK确认后的状态（断开连接时的第二次握手完成）；
+
+CLOSING：主动关闭的一端的状态，收到另一端的FIN，并对其进行确认后的状态（客户端和服务端同时关闭的情况）；
+
+TIME_WAIT: 主动关闭的一端的状态，，收到另一端的FIN或（FIN和ACK）后，对其进行确认后的状态
+          （断开连接时最后一次握手完成）；
+
+CLOSE_WAIT: 被动关闭的一端的状态，收到另一端发送的FIN并对其进行确认后的状态（断开连接时第二次握手完成）；
+
+LAST_ACK: 被动关闭的一端的状态，发送FIN后的状态（断开连接时第三次握手完成）；
+
+CLOSED：连接彻底断开；
+</code></pre><p>TCP/IP协议族诞生之后，各个平台（Window, Unix）就按照此协议规范在系统层面为开发网络程序提供了统一的接口——Socket。通过这个面向传输层协议的系统接口，我们可通过TCP/UDP协议快速实现网络数据的交换，同时也可用来实现应用层协议，如HTTP， SSL等。</p>
+<h3 id="Socket（套接字）"><a href="#Socket（套接字）" class="headerlink" title="Socket（套接字）"></a>Socket（套接字）</h3><p>Socket是操作系统为上层应用实现网络数据交换提供的接口，我们可通过以下场景来理解：</p>
+<blockquote>
+<p>当你给别人打电话的时候首先要确认打给谁，其次确认打哪个号码，通过这两个条件就可准确的联系到对方。那么在网络中传输数据也是同样的道理，在网络中定位主机是通过IP来实现的，一个IP代表了一台主机，但是每台主机有很多个端口号，所以要准确地与某个应用进行数据交换，除了IP地址外，还需要一个端口号。有了这两个条件，就可通过Socket实现数据交换。由此可见，Socket其实就相当于一部手机，两部手机之间建立一条通路即可实现通话。</p>
+</blockquote>
+<h3 id="Socket编程的步骤"><a href="#Socket编程的步骤" class="headerlink" title="Socket编程的步骤"></a>Socket编程的步骤</h3><h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><ol>
+<li>创建scoket;</li>
+<li>连接服务器；</li>
+<li>发送、接收数据；</li>
+<li>关闭socket连接</li>
+</ol>
+<p>代码实现（Linux C编程）：</p>
+<pre><code>#include &lt;sys/socket.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;arpa/inet.h&gt; 
+
+int main(int argc, char *argv[])
+{
+    int sockfd = 0, n = 0;
+    char recvBuff[1024];
+    struct sockaddr_in serv_addr; 
+
+    if(argc != 2)
+    {
+        printf(&quot;n Usage: %s &lt;ip of server&gt; n&quot;,argv[0]);
+        return 1;
+    } 
+
+    memset(recvBuff, &apos;0&apos;,sizeof(recvBuff));
+    // 创建socket
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0)
+    {
+        printf(&quot;n Error : Could not create socket n&quot;);
+        return 1;
+    } 
+
+    // 设置IP和端口
+    memset(&amp;serv_addr, &apos;0&apos;, sizeof(serv_addr)); 
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(5000); 
+
+    if(inet_pton(AF_INET, argv[1], &amp;serv_addr.sin_addr)&lt;=0)
+    {
+        printf(&quot;n inet_pton error occuredn&quot;);
+        return 1;
+    } 
+    // 连接到指定的IP和端口 -&gt; 连接成功后即三次握手完成
+    if( connect(sockfd, (struct sockaddr *)&amp;serv_addr, sizeof(serv_addr)) &lt; 0)
+    {
+       printf(&quot;n Error : Connect Failed n&quot;);
+       return 1;
+    } 
+    // 读数据
+    while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) &gt; 0)
+    {
+        recvBuff[n] = 0;
+        if(fputs(recvBuff, stdout) == EOF)
+        {
+            printf(&quot;n Error : Fputs errorn&quot;);
+        }
+    } 
+
+    if(n &lt; 0)
+    {
+        printf(&quot;n Read error n&quot;);
+    } 
+    close(scokfd);
+
+    return 0;
+}
+</code></pre><h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><ol>
+<li>创建socket;</li>
+<li>绑定IP和端口；</li>
+<li>监听客户端的连接；</li>
+<li>接收客户端的连接；</li>
+<li>发送、接收数据</li>
+<li>关闭socket连接；</li>
+</ol>
+<p>代码实现：（Linux C编程）</p>
+<pre><code>#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;time.h&gt; 
+
+int main(int argc, char *argv[])
+{
+    int listenfd = 0, connfd = 0;
+    struct sockaddr_in serv_addr; 
+
+    char sendBuff[1025];
+    time_t ticks; 
+
+    // 创建socket
+    listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    memset(&amp;serv_addr, &apos;0&apos;, sizeof(serv_addr));
+    memset(sendBuff, &apos;0&apos;, sizeof(sendBuff)); 
+
+    // 绑定IP地址和端口
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(5000); 
+    bind(listenfd, (struct sockaddr*)&amp;serv_addr, sizeof(serv_addr)); 
+
+    // 监听客户端口的连接请求 -&gt; 对应于状态图中的LISTEN状态
+    listen(listenfd, 10); 
+    while(1)
+    {
+        // 接收客户端的请求 -&gt; 与客户端三次握手完成
+        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
+        ticks = time(NULL);
+        snprintf(sendBuff, sizeof(sendBuff), &quot;%.24srn&quot;, ctime(&amp;ticks));
+
+        // 向客户端发送数据
+        write(connfd, sendBuff, strlen(sendBuff)); 
+
+        // 关闭socket
+        close(connfd);
+        sleep(1);
+     }
+}
+</code></pre><p><a href="https://www.thegeekstuff.com/2011/12/c-socket-programming/" target="_blank" rel="external">代码出处 https://www.thegeekstuff.com/2011/12/c-socket-programming/</a></p>
+<p>通过以上代码，我们对socket有了一个简单的认识，同时也了解了数据交换的基本流程。后面会对基于TCP协议的HTTP协议进行一个详细的介绍。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://zh.wikipedia.org/wiki/TCP/IP%E5%8D%8F%E8%AE%AE%E6%97%8F" target="_blank" rel="external">TCP/IP协议族</a></p>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE" target="_blank" rel="external">传输控制协议</a></p>
+<p>《TCP/IP详解 卷一》</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2018年01月10日 - 21时25分</p>
+        <p><span>最后更新:</span>2018年01月21日 - 15时27分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/10/网络编程之理论篇/" title="网络编程之理论篇.md">http://juhonggang.github.io/2018/01/10/网络编程之理论篇/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/01/10/网络编程之理论篇/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/01/16/Http详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Http详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/29/简洁的下拉刷新组件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">简洁的下拉刷新组件</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/01/16/Http详解/" title="上一篇: Http详解">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/12/29/简洁的下拉刷新组件/" title="下一篇: 简洁的下拉刷新组件">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/Http详解/">Http详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

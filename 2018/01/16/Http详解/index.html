@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Http详解 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTTP（HyperText Transfer Protocol），超文本传输协议，是一个基于TCP实现的应用层协议。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Http详解">
+<meta property="og:url" content="http://juhonggang.github.io/2018/01/16/Http详解/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="HTTP（HyperText Transfer Protocol），超文本传输协议，是一个基于TCP实现的应用层协议。">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/http_response_code.svg">
+<meta property="og:updated_time" content="2018-01-21T07:24:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Http详解">
+<meta name="twitter:description" content="HTTP（HyperText Transfer Protocol），超文本传输协议，是一个基于TCP实现的应用层协议。">
+<meta name="twitter:image" content="http://od186sz8s.bkt.clouddn.com/http_response_code.svg">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/Http/" style="font-size: 13.33px;">Http</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 16.67px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/网络编程/" style="font-size: 10px;">网络编程</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Http详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/16/Http详解/" class="article-date">
+      <time datetime="2018-01-16T07:18:43.000Z" itemprop="datePublished">2018-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Http详解
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Http/">Http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/">Socket</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>HTTP（HyperText Transfer Protocol），超文本传输协议，是一个基于TCP实现的应用层协议。</p>
+<a id="more"></a>
+<h3 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h3><p>HTTP1.0的报文有两种类型：请求和相应。其报文格式分别为：</p>
+<h4 id="请求报文格式"><a href="#请求报文格式" class="headerlink" title="请求报文格式"></a>请求报文格式</h4><pre><code>请求方法 URL HTTP/版本号
+请求首部字段(可选)
+空行
+body(只对Post请求有效)
+</code></pre><p>例如：</p>
+<pre><code>GET http://m.baidu.com/ HTTP/1.1
+Host m.baidu.com
+Connection Keep-Alive
+...// 其他header
+
+key=Android
+</code></pre><h4 id="响应报文格式"><a href="#响应报文格式" class="headerlink" title="响应报文格式"></a>响应报文格式</h4><pre><code>HTTP/版本号 返回码 返回码描述
+应答首部字段(可选)
+空行
+body
+</code></pre><p>例如：</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type text/html;charset=UTF-8
+...// 其他header
+
+&lt;html&gt;...
+</code></pre><h3 id="URL的结构"><a href="#URL的结构" class="headerlink" title="URL的结构"></a>URL的结构</h3><p>使用HTTP协议访问资源是通过URL（Uniform Resource Identifiers）统一资源定位符来实现的。URL的格式如下：</p>
+<pre><code>scheme://host:port/path?query
+
+scheme: 表示协议，如Http, Https, Ftp等；
+host: 表示所访问资源所在的主机名：如：www.baidu.com;
+port: 表示端口号，默认为80；
+path: 表示所访问的资源在目标主机上的储存路径；
+query: 表示查询条件；
+
+例如： http://www.baidu.com/search?words=Baidu
+</code></pre><h3 id="HTTP的请求方法"><a href="#HTTP的请求方法" class="headerlink" title="HTTP的请求方法"></a>HTTP的请求方法</h3><ul>
+<li>GET: 获取URL指定的资源；</li>
+<li>POST：传输实体信息</li>
+<li>PUT：上传文件</li>
+<li>DELETE：删除文件</li>
+<li>HEAD：获取报文首部，与GET相比，不返回报文主体部分</li>
+<li>OPTIONS：询问支持的方法</li>
+<li>TRACE：追踪请求的路径；</li>
+<li>CONNECT：要求在与代理服务器通信时建立隧道，使用隧道进行TCP通信。主要使用SSL和TLS将数据加密后通过网络隧道进行传输。</li>
+</ul>
+<h3 id="报文字段"><a href="#报文字段" class="headerlink" title="报文字段"></a>报文字段</h3><p>HTTP首部字段由字段名和字段值组成，中间以”:”分隔，如Content-Type: text/html.其中，同一个字段名可对应多个字段值。</p>
+<p>HTTP的报文字段分为5种：</p>
+<ul>
+<li>请求报文字段</li>
+<li>应答报文字段</li>
+<li>实体首部字段</li>
+<li>通用报文字段</li>
+<li>其他报文字段</li>
+</ul>
+<h4 id="请求报文字段"><a href="#请求报文字段" class="headerlink" title="请求报文字段"></a>请求报文字段</h4><p>Http请求中支持的报文字段。</p>
+<pre><code>Accept：客户端能够处理的媒体类型。如text/html, 表示客户端让服务器返回html类型的数据，如果没有，返回text
+类型的也可以。媒体类型的格式一般为：type/subType, 表示优先请求subType类型的数据，如果没有，返回type类型
+数据也可以。
+
+常见的媒体类型：
+文本文件：text/html, text/plain, text/css, application/xml
+图片文件：iamge/jpeg, image/gif, image/png;
+视频文件：video/mpeg
+应用程序使用的二进制文件：application/octet-stream, application/zip
+
+Accept字段可设置多个字段值，这样服务器依次进行匹配，并返回最先匹配到的媒体类型，当然，也可通过q参数来设置
+媒体类型的权重，权重越高，优先级越高。q的取值为[0, 1], 可取小数点后3位，默认为1.0。例如：
+Accept: text/html, application/xml; q=0.9, */*
+
+Accept-Charset: 表示客户端支持的字符集。例如：Accept-Charset: GB2312, ISO-8859-1
+
+Accept-Encoding： 表示客户端支持的内容编码格式。如：Accept-Encoding：gzip
+
+常用的内容编码：
+gzip: 由文件压缩程序gzip生成的编码格式；
+compress: 由Unix文件压缩程序compress生成的编码格式；
+deflate: 组合使用zlib和deflate压缩算法生成的编码格式；
+identity：默认的编码格式，不执行压缩。
+
+Accept-Language：表示客户端支持的语言。如：Accept-Language: zh-cn, en
+
+Authorization：表示客户端的认证信息。客户端在访问需要认证的也是时，服务器会返回401，随后客户端将认证信息
+加在Authorization字段中发送到服务器后，如果认证成功，则返回200. 如Linux公社下的Ftp服务器就是这种流程：
+ftp://ftp1.linuxidc.com。
+
+Host: 表示访问资源所在的主机名，即URL中的域名部分。如：m.baidu.com
+
+If-Match: If-Match的值与所请求资源的ETag值（实体标记，与资源相关联。资源变化，实体标记跟着变化）一致时，
+服务器才处理此请求。
+
+If-Modified-Since: 用于确认客户端拥有的本地资源的时效性。 如果客户端请求的资源在If-Modified-Since指定
+的时间后发生了改变，则服务器处理该请求。如：If-Modified-Since:Thu 09 Jul 2018 00:00:00, 表示如果客户
+端请求的资源在2018年1月9号0点之后发生了变化，则服务器处理改请求。通过该字段我们可解决以下问题：有一个包含大
+量数据的接口，且实时性较高，我们在刷新时就可使用改字段，从而避免多余的流量消耗。
+
+If-None-Match: If-Match的值与所请求资源的ETag值不一致时服务器才处理此请求。
+
+If-Range： If-Range的值（ETag值或时间）与所访问资源的ETag值或时间相一致时，服务器处理此请求，并返回
+Range字段中设置的指定范围的数据。如果不一致，则返回所有内容。If-Range其实算是If-Match的升级版，因为它
+的值不匹配时，依然能够返回数据，而If-Match不匹配时，请求不会被处理，需要数据时需再次进行请求。
+
+
+If-Unmodified-Since：与If-Modified-Since相反，表示请求的资源在指定的时间之后未发生变化时，才处理请求，
+否则返回412。
+
+Max-Forwards：表示请求可经过的服务器的最大数目，请求每被转发一次，Max-Forwards减1，当Max-Forwards为0
+时，所在的服务器将不再转发，而是直接做出应答。通过此字段可定位通信问题，比如之前支付宝光纤被挖断，就可通过设
+置Max-Forwards来定位大概的位置。
+
+Proxy-Authorization：当客户端接收到来自代理服务器的认证质询时，客户端会将认证信息添加到
+Proxy-Authorization来完成认证。与Authorization类似，只不过Authorization是发生在客户端与服务端之间。
+
+Range：获取部分资源，例如：Range: bytes=500-1000表示获取指定资源的第500到1000字节之间的内容，如果服务器
+能够正确处理，则返回206作为应答，表示返回了部分数据，如果不能处理这种范围请求，则以200作为应答，返回完整的
+数据，
+
+Referer：告知服务器请求是从哪个页面发起的。例如在百度首页中搜索某个关键字，结果页面的请求头部就会有这个字段，
+其值为https://www.baidu.com/。通过这个字段可统计广告的点击情况。
+
+User-Agent：将发起请求的浏览器和代理名称等信息发送给服务端，例如：
+User-Agent: Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36
+(KHTML, like Gecko) Chrome/63.0.3239.84 Mobile Safari/537.36
+</code></pre><h4 id="应答报文字段"><a href="#应答报文字段" class="headerlink" title="应答报文字段"></a>应答报文字段</h4><p>Http应答中支持的报文字段。</p>
+<pre><code>Accept-Ranges: 服务端告知客户端自己能够处理范围请求，其值有两种:bytes，none.其中bytes表示可处理，none
+表示不能处理。
+
+Age：服务端告知客户端，源服务器（而不是缓存服务器）在多久之前创建了响应。
+单位为秒。
+
+ETag： 实体资源的标识，可用来请求指定的资源。
+
+Location：请求的资源所在的新位置。
+
+Proxy-Authenticate：将代理服务器需要的认证信息发送给客户端。
+
+Retry-After：服务端告知客户端多久之后再重试，一般与503和3xx重定向类型的应答一起使用。
+
+Server：告知服务端当前使用的HTTP服务器应用程序的相关信息。
+
+WWW-Authenticate：告知客户端适用于所访问资源的认证方案，如Basic或Digest。401的响应中肯定带有
+WWW-Authenticate字段。
+</code></pre><h4 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h4><pre><code>Allow：通知客户端，服务器所支持的请求方法。但服务器收到不支持的请求方法时，会以405（Method Not Allowed）
+作为响应。
+
+Content-Encoding：告知客户端，服务器对资源的内容编码。
+
+Content-Language：告知客户端，资源所使用的自然语言。
+
+Content-Length：告知客户端资源的长度
+
+Content-Location：告知客户端资源所在的位置。
+
+Content-Type：告知客户端资源的媒体类型，取值同请求首部字段中的Accept。
+
+Expires：告知客户端资源的失效日期。可用于对缓存的处理。
+
+Last-Modified：告知客户端资源最后一次修改的时间。
+</code></pre><h4 id="通用报文字段"><a href="#通用报文字段" class="headerlink" title="通用报文字段"></a>通用报文字段</h4><p>即可在HTTP请求中使用，也可在HTTP应答中使用的报文字段。</p>
+<pre><code>Cache-Control：控制缓存行为；
+
+Connection：管理持久连接，设置其值为Keep-Alive可实现长连接。
+
+Date：创建HTTP报文的日期和时间。
+
+Pragma：Http/1.1之前的历史遗留字段，仅作为HTTP/1.0向后兼容而定义，虽然是通用字段，当通常被使用在客户单的
+请求中，如Pragma: no-cache, 表示客户端在请求过程中不循序服务端返回缓存的数据；
+
+Transfer-Encoding：规定了传输报文主题时使用的传输编码，如Transfer-Encoding: chunked
+
+Upgrade: 用于检查HTTP协议或其他协议是否有可使用的更高版本。
+
+Via：追踪客户端和服务端之间的报文的传输路径，还可避免会环的发生，所以在经过代理时必须添加此字段。
+
+Warning：Http/1.1的报文字段，从Http/1.0的AfterRetry演变而来，用来告知用户一些与缓存相关的警告信息。
+</code></pre><h4 id="其他报文字段"><a href="#其他报文字段" class="headerlink" title="其他报文字段"></a>其他报文字段</h4><p>这些字段不是HTTP协议中定义的，但被广泛应用于HTTP请求中。</p>
+<ul>
+<li><p>Cookie：属于请求型报文字段，在请求时添加Cookie, 以实现HTTP的状态记录。</p>
+</li>
+<li><p>Set-Cookie：属于应答型报文字段。服务器给客户端传递Cookie信息时，就是通过此字段实现的。</p>
+</li>
+</ul>
+<blockquote>
+<p>Set-Cookie的字段属性：</p>
+</blockquote>
+<pre><code>NAME=VALUE：赋予Cookie的名称和值；
+expires=DATE: Cookie的有效期；
+path=PATH: 将服务器上的目录作为Cookie的适用对象，若不指定，则默认为文档所在的文件目录；
+domin=域名：作为Cookies适用对象的域名，若不指定，则默认为创建Cookie的服务器域名；
+Secure: 仅在HTTPS安全通信是才会发送Cookie；
+HttpOnly: 使Cookie不能被JS脚本访问；
+
+如：Set-Cookie:BDSVRBFE=Go; max-age=10; domain=m.baidu.com; path=/
+</code></pre><h3 id="HTTP应答状态码"><a href="#HTTP应答状态码" class="headerlink" title="HTTP应答状态码"></a>HTTP应答状态码</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>类别</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1xx</td>
+<td>Informational(信息性状态码)</td>
+<td>请求正在被处理</td>
+</tr>
+<tr>
+<td>2xx</td>
+<td>Success(成功状态码)</td>
+<td>请求处理成功</td>
+</tr>
+<tr>
+<td>3xx</td>
+<td>Redirection(重定向状态码)</td>
+<td>需要进行重定向</td>
+</tr>
+<tr>
+<td>4xx</td>
+<td>Client Error(客户端状态码)</td>
+<td>服务器无法处理请求</td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>Server Error(服务端状态码)</td>
+<td>服务器处理请求时出错</td>
+</tr>
+</tbody>
+</table>
+<h4 id="常见应答状态码："><a href="#常见应答状态码：" class="headerlink" title="常见应答状态码："></a>常见应答状态码：</h4><p><img src="http://od186sz8s.bkt.clouddn.com/http_response_code.svg" alt=""></p>
+<p>了解应答状态码的含义，有助于我们在开发过程中定位问题，比如出现4xx, 我们首先需要检查的是请求是否有问题，而出现5xx时，则应让服务端做相应的检查工作。</p>
+<h3 id="HTTP的实现"><a href="#HTTP的实现" class="headerlink" title="HTTP的实现"></a>HTTP的实现</h3><p>HTTP是基于TCP协议的一种应用层协议，那我们就可通过系统提供的Socket来实现，实现步骤如下：</p>
+<ol>
+<li>建立一条TCP连接；</li>
+<li>按照HTTP请求报文的格式构造数据，构造完成之后发送到服务器端；</li>
+<li>接收服务器端的数据，根据HTTP的应答报文的格式，解析数据。</li>
+<li>断开TCP连接；</li>
+</ol>
+<p>这里的代码依然使用上一篇的理论知识中引用的代码：</p>
+<pre><code>#include &lt;sys/socket.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;arpa/inet.h&gt; 
+
+int main(int argc, char *argv[])
+{
+    int sockfd = 0, n = 0;
+    char recvBuff[1024];
+    struct sockaddr_in serv_addr; 
+
+    if(argc != 2)
+    {
+        printf(&quot;\n Usage: %s &lt;ip of server&gt; \n&quot;,argv[0]);
+        return 1;
+    } 
+
+    memset(recvBuff, &apos;0&apos;,sizeof(recvBuff));
+    // 创建socket
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0)
+    {
+        printf(&quot;\n Error : Could not create socket \n&quot;);
+        return 1;
+    } 
+
+    // 设置IP和端口
+    memset(&amp;serv_addr, &apos;0&apos;, sizeof(serv_addr)); 
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(80); 
+
+    if(inet_pton(AF_INET, argv[1], &amp;serv_addr.sin_addr)&lt;=0)
+    {
+        printf(&quot;\n inet_pton error occured\n&quot;);
+        return 1;
+    } 
+    // 连接到指定的IP和端口 -&gt; 连接成功后即三次握手完成
+    if( connect(sockfd, (struct sockaddr *)&amp;serv_addr, sizeof(serv_addr)) &lt; 0)
+    {
+       printf(&quot;\n Error : Connect Failed \n&quot;);
+       return 1;
+    } 
+
+    // 构造HTTP头部
+    char *str = &quot;HEAD http://www.baidu.com/ HTTP/1.1\r\n&quot;
+            &quot;Host: www.baidu.com\r\n&quot;
+            &quot;\r\n&quot;;
+
+    // 将HTTP请求发送到服务端
+    int len = write(sockfd, str, strlen(str) + 1);
+    if (len &gt; 0) {
+        printf(&quot;request send successful!\n\n&quot;);
+    }
+
+    // 读取服务端返回的数据
+    while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) &gt; 0)
+    {
+        recvBuff[n] = 0;
+        if(fputs(recvBuff, stdout) == EOF)
+        {
+            printf(&quot;\n Error : Fputs error\n&quot;);
+        }
+    } 
+
+    if(n &lt; 0)
+    {
+        printf(&quot;\n Read error \n&quot;);
+    } 
+    close(sockfd);
+
+    return 0;
+}
+</code></pre><p>通过gcc编译之后运行可得以下结果：</p>
+<pre><code>$ ./client 58.217.200.13
+request send successful!
+
+HTTP/1.1 200 OK
+Date: Mon, 15 Jan 2018 12:21:47 GMT
+Server: Apache
+P3P: CP=&quot; OTI DSP COR IVA OUR IND COM &quot;
+P3P: CP=&quot; OTI DSP COR IVA OUR IND COM &quot;
+Set-Cookie: BAIDUID=37229A83CAD417143F243CF4BF632CD4:FG=1; expires=Tue, 15-Jan-19 12:21:47 GMT; max-age=31536000; path=/; domain=.baidu.com; version=1
+Set-Cookie: BAIDUID=37229A83CAD41714BC95B90FC2266CF0:FG=1; expires=Tue, 15-Jan-19 12:21:47 GMT; max-age=31536000; path=/; domain=.baidu.com; version=1
+Last-Modified: Wed, 08 Feb 2017 07:55:35 GMT
+ETag: &quot;1cd6-5480030886bc0&quot;
+Accept-Ranges: bytes
+Content-Length: 7382
+Cache-Control: max-age=1
+Expires: Mon, 15 Jan 2018 12:21:48 GMT
+Vary: Accept-Encoding,User-Agent
+Connection: Keep-Alive
+Content-Type: text/html
+</code></pre><p>从结果可以看出，我们已实现了HTTP的请求过程。其应答过程的实现也是同样的道理。根据上一篇文章<a href="https://juejin.im/post/5a535f8b518825733060c7bd" target="_blank" rel="external">网络编程之理论篇</a>中介绍的Socket服务端的编程步骤，结合HTTP应答报文的格式，即可快速实现HTTP的应答过程。当然，要实现完整的HTTP协议还是有很多细节需要处理的。这里只是演示了一下HTTP的实现过程，便于对HTTP协议的实现由一个简单的了解。下一篇文章通过JDK提供的HttpUrlConnection来深入理解HTTP的实现过程。</p>
+<h3 id="参考书籍"><a href="#参考书籍" class="headerlink" title="参考书籍"></a>参考书籍</h3><p>《图解HTTP》</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/01/16/Http详解/">Http详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2018年01月16日 - 15时18分</p>
+        <p><span>最后更新:</span>2018年01月21日 - 15时24分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/16/Http详解/" title="Http详解">http://juhonggang.github.io/2018/01/16/Http详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/01/16/Http详解/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/01/19/OkHttp缓存使用指南/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          OkHttp缓存使用指南
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/10/网络编程之理论篇/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">网络编程之理论篇.md</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/01/19/OkHttp缓存使用指南/" title="上一篇: OkHttp缓存使用指南">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/01/10/网络编程之理论篇/" title="下一篇: 网络编程之理论篇.md">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/Http详解/">Http详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

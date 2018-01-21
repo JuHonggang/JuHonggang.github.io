@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OkHttp缓存使用指南 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Http协议中，缓存的控制是通过首部的Cache-Control来控制，通过对Cache-Control进行设置，即可实现不同的缓存策略。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OkHttp缓存使用指南">
+<meta property="og:url" content="http://juhonggang.github.io/2018/01/19/OkHttp缓存使用指南/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="在Http协议中，缓存的控制是通过首部的Cache-Control来控制，通过对Cache-Control进行设置，即可实现不同的缓存策略。">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/Request.svg">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/simple_request.svg">
+<meta property="og:updated_time" content="2018-01-21T07:33:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OkHttp缓存使用指南">
+<meta name="twitter:description" content="在Http协议中，缓存的控制是通过首部的Cache-Control来控制，通过对Cache-Control进行设置，即可实现不同的缓存策略。">
+<meta name="twitter:image" content="http://od186sz8s.bkt.clouddn.com/Request.svg">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/Http/" style="font-size: 13.33px;">Http</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 16.67px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 13.33px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/网络编程/" style="font-size: 10px;">网络编程</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-OkHttp缓存使用指南" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/19/OkHttp缓存使用指南/" class="article-date">
+      <time datetime="2018-01-19T14:10:05.000Z" itemprop="datePublished">2018-01-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OkHttp缓存使用指南
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在Http协议中，缓存的控制是通过首部的Cache-Control来控制，通过对Cache-Control进行设置，即可实现不同的缓存策略。</p>
+<a id="more"></a>
+<h3 id="Http缓存"><a href="#Http缓存" class="headerlink" title="Http缓存"></a>Http缓存</h3><p>Cache-Control和其他的首部字段一样，使用key:value结构，同时value可有多个值, 值之间以，分隔（具体参考<a href="https://juejin.im/post/5a5cab18f265da3e46750ee2" target="_blank" rel="external">HTTP详解</a>）。Cache-Control是一个通用首部字段，在Http请求报文中可使用，也可在应答报文中使用。</p>
+<h4 id="请求指令集（在请求报文中的取值）："><a href="#请求指令集（在请求报文中的取值）：" class="headerlink" title="请求指令集（在请求报文中的取值）："></a>请求指令集（在请求报文中的取值）：</h4><ul>
+<li>no-cache: 不要缓存数据，直接从源服务器获取数据；</li>
+<li>no-store: 不缓存请求或响应的任何内容；</li>
+<li>max-age: 表示可接受过期过久的缓存数据，同指定了参数的max-stale；</li>
+<li>max-stale: 表示接收过期的缓存，如后面未指定参数，则表示永远接收缓存数据。如max-stale: 3600, 表示可接受过期1小时内的数据；</li>
+<li>min-fresh: 表示指定时间内的缓存数据仍有效，与缓存是否过期无关。如min-fresh: 60, 表示60s内的缓存数据都有效，60s之后的缓存数据将无效。</li>
+<li>only-if-cache: 表示直接获取缓存数据，若没有数据返回，则返回504（Gateway Timeout）</li>
+</ul>
+<h4 id="应答指令集（在应答报文中的取值）："><a href="#应答指令集（在应答报文中的取值）：" class="headerlink" title="应答指令集（在应答报文中的取值）："></a>应答指令集（在应答报文中的取值）：</h4><ul>
+<li>public: 可向任一方提供缓存数据；</li>
+<li>private: 只向指定用户提供缓存数据；</li>
+<li>no-cache: 缓存前需确认其有效性；</li>
+<li>no-store: 不缓存请求或响应的任何内容；</li>
+<li><p>max-age: 表示缓存的最大时间，在此时间范围内，访问该资源时，直接返回缓存数据。不需要对资源的有效性进行确认；</p>
+</li>
+<li><p>must-revalidate: 访问缓存数据时，需要先向源服务器确认缓存数据是否有效，如无法验证其有效性，则需返回504。需要注意的是：如果使用此值，则max-stale将无效。</p>
+</li>
+</ul>
+<p>更详细内容可参考：<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1" target="_blank" rel="external">Http首部字段定义</a></p>
+<p>了解了HTTP的理论知识，后面我们对OkHttp中的缓存进行简单的介绍。</p>
+<h3 id="OkHttp拦截器"><a href="#OkHttp拦截器" class="headerlink" title="OkHttp拦截器"></a>OkHttp拦截器</h3><p>OkHttp默认对Http缓存进行了支持，只要服务端返回的Response中含有缓存策略，OkHttp就会通过CacheInterceptor拦截器对其进行缓存。但是OkHttp默认情况下构造的HTTP请求中并没有加Cache-Control，即便服务器支持了，我们还是不能正常使用缓存数据。所以需要对OkHttp的缓存过程进行干预，使其满足我们的需求。</p>
+<p>OkHttp的优雅之处就在于使用了责任链模式，将请求-应答过程中的每一步都通过一个拦截器来实现，并对此过程的头部和尾部都提供了扩展，这也为我们干预缓存过程提供了可能。所以在实现缓存之前，我们需要对OkHttp对拦截器的处理过程有个大概的了解。</p>
+<pre><code>Response getResponseWithInterceptorChain() throws IOException {
+    // Build a full stack of interceptors.
+    List&lt;Interceptor&gt; interceptors = new ArrayList&lt;&gt;();
+    interceptors.addAll(client.interceptors());
+    interceptors.add(retryAndFollowUpInterceptor);
+    interceptors.add(new BridgeInterceptor(client.cookieJar()));
+    interceptors.add(new CacheInterceptor(client.internalCache()));
+    interceptors.add(new ConnectInterceptor(client));
+    if (!forWebSocket) {
+      interceptors.addAll(client.networkInterceptors());
+    }
+    interceptors.add(new CallServerInterceptor(forWebSocket));
+
+    Interceptor.Chain chain = new RealInterceptorChain(
+        interceptors, null, null, null, 0, originalRequest, this, eventListener);
+    return chain.proceed(originalRequest);
+}
+</code></pre><p>以上代码就是整个拦截器的处理过程，具体的流程可参考源码，这里我们只说一下基本的流程：发起请求时，会按interceptors中加入的顺序依次执行，返回Response时按照逆序执行：</p>
+<pre><code>自定义拦截器 &lt;-&gt; 内置拦截器（retryAndFollowUpInterceptor...ConnectInterceptor）
+&lt;-&gt; 网络拦截器 &lt;-&gt; CallServerInterceptor
+</code></pre><p>其中CallServerInterceptor就是负责发送请求与接收应答的拦截器。由于我们关注的只是缓存，所以只考虑内置拦截器中的CacheInterceptor。那么流程可简化为：</p>
+<pre><code>Request &lt;-&gt; 自定义拦截器 &lt;-&gt; CacheInterceptor &lt;-&gt; 网络拦截器 &lt;-&gt; Response
+</code></pre><p>从这个流程可以看出，如果服务端返回的Response中没有Cache-Control, 那么我们可通过添加网络拦截器来实现。同样，在访问缓存数据时，我们可通过添加自定义拦截器来实现。</p>
+<h3 id="使用OkHttp缓存"><a href="#使用OkHttp缓存" class="headerlink" title="使用OkHttp缓存"></a>使用OkHttp缓存</h3><p>在开始添加缓存策略之前，我们先了解一个完整的缓存策略：<br><img src="http://od186sz8s.bkt.clouddn.com/Request.svg" alt="image"></p>
+<p>整体来说，在有网络的情况下，使用缓存还是比较复杂，这里我们通过简化版的缓存策略(<strong>有网络时访问服务器，无网络时返回缓存数据</strong>)来演示OkHttp使用缓存的过程。</p>
+<p><img src="http://od186sz8s.bkt.clouddn.com/simple_request.svg" alt="image"></p>
+<p>首先，我们通过定义一个网络拦截器来为Response添加缓存策略：</p>
+<pre><code>public class HttpCacheInterceptor implements Interceptor {
+
+    private Context context;
+
+    public HttpCacheInterceptor(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        return chain.proceed(chain.request()).newBuilder()
+            .request(newRequest)
+            .removeHeader(&quot;Pragma&quot;)
+            .header(&quot;Cache-Control&quot;, &quot;public, max-age=&quot; + 1)
+            .build();
+
+        return response;
+    }
+}
+</code></pre><p>其次，通过自定义拦截器设置Request使用缓存的策略：</p>
+<pre><code>public class BaseInterceptor implements Interceptor {
+
+    private Context mContext;
+
+    public BaseInterceptor(Context context) {
+        this.mContext = context;
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+
+        if (NetworkUtil.isConnected(mContext)) {
+            return chain.proceed(chain.request());    
+        } else { // 如果没有网络，则返回缓存未过期一个月的数据
+            Request newRequest = chain.request().newBuilder()
+                    .removeHeader(&quot;Pragma&quot;)
+                .header(&quot;Cache-Control&quot;, &quot;only-if-cached, max-stale=&quot; + 30 * 24 * 60 * 60);
+            return chain.proceed(newRequest);    
+        }
+    }
+}
+</code></pre><blockquote>
+<p>Pragma是Http/1.1之前版本遗留的字段，用于做版本兼容，但不同的平台对此有不同的实现，所以在使用缓存策略时需要将其屏蔽，避免对缓存策略造成影响。</p>
+</blockquote>
+<p>将对修改Request和Response缓存策略的拦截器应用于OkHttp：</p>
+<pre><code>OkHttpClient httpClient = new OkHttpClient.Builder()
+    .addInterceptor(new BaseInterceptor(context))
+    .addNetworkInterceptor(new HttpCacheInterceptor(context))
+    .cache(new Cache(context.getCacheDir(), 20 * 1024 * 1024)) // 设置缓存路径和缓存容量
+    .build();
+</code></pre><p>接下来就可以在无网络的情况下愉快地使用缓存数据了。</p>
+<h3 id="不使用OkHttp的缓存"><a href="#不使用OkHttp的缓存" class="headerlink" title="不使用OkHttp的缓存"></a>不使用OkHttp的缓存</h3><p>如果觉得OkHttp的缓存太复杂，想自己来缓存数据怎么办呢？有两种方案来实现：</p>
+<ul>
+<li>自定义拦截器，</li>
+<li>监听OkHttp的请求过程，在请求完成时缓存数据；</li>
+</ul>
+<h4 id="自定义拦截器"><a href="#自定义拦截器" class="headerlink" title="自定义拦截器"></a>自定义拦截器</h4><p>这种方案首先需要考虑应使用普通的拦截器还是网络拦截器，上面我们已经了解了整个请求过程中拦截器的执行顺序，需要注意的是：在无网络的情况下，请求在执行到CacheIntercepter，如果没有缓存数据，将会直接返回，并不会执行到自定义的网络拦截器中，所以不适合在网络拦截器中缓存数据。那么我们可通过自定义普通拦截器来实现，基本的过程如下：</p>
+<pre><code>@Override // BaseInterceptor.java
+public Response intercept(Chain chain) throws IOException {
+
+    Response response = null;
+    if (NetworkUtil.isConnected(mContext)) {
+        response = chain.proceed(newRequest);
+        saveCacheData(response); // 保存缓存数据
+    } else { // 不执行chain.proceed会打断责任链，即后面的拦截器不会被执行
+        response = getCacheData(chain.request().url()); // 获取缓存数据
+    }
+
+    return response;
+}
+</code></pre><h4 id="监听OkHttp的请求过程"><a href="#监听OkHttp的请求过程" class="headerlink" title="监听OkHttp的请求过程"></a>监听OkHttp的请求过程</h4><p>OkHttp: 使用这种方案你良心不会痛吗？</p>
+<p>这种方案可以说摒弃了OkHttp扩展拦截器这一强大的功能，直接与请求和应答进行交互，基本的过程如下：</p>
+<pre><code>Request request = new Request.Builder()
+    .url(realUrl)
+    .build();
+if (NetworkUtil.isConnected()) {
+    httpClient.newCall(request).enqueue(new Callback() {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            // 返回缓存数据
+        }
+
+        @Override
+        public void onResponse(Response response) throws IOException {
+            // 1. 缓存数据
+            // 2. 返回请求结果
+        }
+    });
+} else {
+    // 返回缓存数据
+}
+</code></pre><h4 id="优缺点比较"><a href="#优缺点比较" class="headerlink" title="优缺点比较"></a>优缺点比较</h4><p>这两种方案都抛弃了OkHttp自己实现的缓存策略，所以更加灵活，尤其是监听OkHttp请求过程这种方法。但也都有一个很大的缺点：需要实现一个缓存模块。在开发中具体使用哪种缓存策略，根据已有代码模块和需求衡量即可。</p>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ol>
+<li>对Response的缓存策略进行修改的拦截器一定要应用于网络拦截器，否则无法缓存数据，因为在Response返回的过程中，普通的拦截器在内置的CacheInterceptor之后执行；</li>
+<li>修改Response的Cache-Control时，max-Age不能太大，否则你将在指定的max-Age时间内访问的始终是缓存数据（即便是有网的情况下）；</li>
+<li>实际的开发过程中，我们在网络请求中会添加一些公共参数，对于一些可变的公共参数，在缓存数据和访问缓存数据的过程中需要删除，比如网络类型，有网络时其值为Wifi或4G等，无网络时可能为none, 这时访问缓存时就会因url不一致导致访问缓存失败。</li>
+</ol>
+<pre><code>@Override // BaseInterceptor.java
+public Response intercept(Chain chain) throws IOException {
+
+        // 添加公共参数
+    HttpUrl.Builder urlBuilder = chain.request().url().newBuilder()
+            .addQueryParameter(&quot;a&quot;, &quot;a&quot;)
+            .addQueryParameter(&quot;b&quot;, &quot;b&quot;);
+    Request.Builder requestBuilder = chain.request().newBuilder();
+    if (NetworkUtil.isConnected(mContext)) {
+        urlBuilder.addQueryParameter(&quot;network&quot;, NetworkUtil.getNetwokType(mContext));
+    } else { // 无网络时不添加可变的公共参数
+        requestBuilder.removeHeader(&quot;Pragma&quot;)
+                .header(&quot;Cache-Control&quot;, &quot;only-if-cached, max-stale=&quot; + 30 * 24 * 60 * 60);
+    }
+    Request newRequest = requestBuilder
+            .url(urlBuilder.build())
+            .build();
+
+    return chain.proceed(newRequest);
+}
+
+
+@Override // HttpCacheInterceptor.java
+public Response intercept(Chain chain) throws IOException {
+
+    Response response = chain.proceed(chain.request());
+    HttpUrl newUrl = chain.request().url().newBuilder()
+                .removeAllQueryParameters(&quot;network&quot;)
+                .build(); // 缓存数据前删除可变的公共参数
+    Request newRequest = chain.request().newBuilder()
+            .url(newUrl)
+            .build();
+    return response.newBuilder()
+            .request(newRequest)
+            .removeHeader(&quot;Pragma&quot;)
+            .header(&quot;Cache-Control&quot;, &quot;public, max-age=&quot; + 1)
+            .build();
+}
+</code></pre>
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2018年01月19日 - 22时10分</p>
+        <p><span>最后更新:</span>2018年01月21日 - 15时33分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/19/OkHttp缓存使用指南/" title="OkHttp缓存使用指南">http://juhonggang.github.io/2018/01/19/OkHttp缓存使用指南/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/01/19/OkHttp缓存使用指南/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/16/Http详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Http详解</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/01/16/Http详解/" title="下一篇: Http详解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/Http详解/">Http详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
