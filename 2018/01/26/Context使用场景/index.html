@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>OkHttp框架缓存的缺陷 | Freeman的博客</title>
+  <title>Context使用场景 | Freeman的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前段时间在重构代码时，想直接将网络请求中的缓存替换成OkHttp自带的，结果却发现OkHttp的缓存系统在某些情况下是无效的。">
+  <meta name="description" content="Context，直译上下文，是Android应用程序区别与JAVA程序的重要标志，在实际开发中被广泛应用，但由于Context有多个种类，使用时如果不注意，可能出现程序crash。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OkHttp框架缓存的缺陷">
-<meta property="og:url" content="http://juhonggang.github.io/2016/05/13/OkHttp框架缓存的缺陷/index.html">
+<meta property="og:title" content="Context使用场景">
+<meta property="og:url" content="http://juhonggang.github.io/2018/01/26/Context使用场景/index.html">
 <meta property="og:site_name" content="Freeman的博客">
-<meta property="og:description" content="前段时间在重构代码时，想直接将网络请求中的缓存替换成OkHttp自带的，结果却发现OkHttp的缓存系统在某些情况下是无效的。">
-<meta property="og:updated_time" content="2016-05-13T10:55:06.000Z">
+<meta property="og:description" content="Context，直译上下文，是Android应用程序区别与JAVA程序的重要标志，在实际开发中被广泛应用，但由于Context有多个种类，使用时如果不注意，可能出现程序crash。">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/context.png">
+<meta property="og:updated_time" content="2018-01-26T12:56:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OkHttp框架缓存的缺陷">
-<meta name="twitter:description" content="前段时间在重构代码时，想直接将网络请求中的缓存替换成OkHttp自带的，结果却发现OkHttp的缓存系统在某些情况下是无效的。">
+<meta name="twitter:title" content="Context使用场景">
+<meta name="twitter:description" content="Context，直译上下文，是Android应用程序区别与JAVA程序的重要标志，在实际开发中被广泛应用，但由于Context有多个种类，使用时如果不注意，可能出现程序crash。">
+<meta name="twitter:image" content="http://od186sz8s.bkt.clouddn.com/context.png">
   
     <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
   
@@ -219,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-OkHttp框架缓存的缺陷" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Context使用场景" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/13/OkHttp框架缓存的缺陷/" class="article-date">
-      <time datetime="2016-05-13T08:44:14.000Z" itemprop="datePublished">2016-05-13</time>
+      <a href="/2018/01/26/Context使用场景/" class="article-date">
+      <time datetime="2018-01-26T12:55:57.000Z" itemprop="datePublished">2018-01-26</time>
 </a>
     </div>
   
@@ -236,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      OkHttp框架缓存的缺陷
+      Context使用场景
     </h1>
   
 
@@ -252,7 +254,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cache/">Cache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Context/">Context</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -263,21 +265,118 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>前段时间在重构代码时，想直接将网络请求中的缓存替换成OkHttp自带的，结果却发现OkHttp的缓存系统在某些情况下是无效的。</p>
+        <p>Context，直译上下文，是Android应用程序区别与JAVA程序的重要标志，在实际开发中被广泛应用，但由于Context有多个种类，使用时如果不注意，可能出现程序crash。</p>
 <a id="more"></a>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p><a href="https://github.com/square/okhttp/issues/2450" target="_blank" rel="external">okhttp cache is useless without network</a></p>
-<h3 id="OkHttp缓存介绍"><a href="#OkHttp缓存介绍" class="headerlink" title="OkHttp缓存介绍"></a>OkHttp缓存介绍</h3><p>OkHttp的缓存类为Cache, 创建一个Cache对象后在OkHttpClient的内部Builder中进行设置即可：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 创建Cache对象，设置缓存目录和缓存时间</span><br><span class="line">Cache cache = new Cache(new File(&quot;cache_path&quot;), 24*60*60);</span><br><span class="line">// 设置缓存</span><br><span class="line">OkHttpClient client = new OkHttpClient.Builder().cache(cache).build();</span><br></pre></td></tr></table></figure>
-<p>注意：上面的代码只是演示设置缓存的过程，在开发过程中一般会将client设计为单例模式，同时可能会进行更多设置。</p>
-<h3 id="缓存失效场景"><a href="#缓存失效场景" class="headerlink" title="缓存失效场景"></a>缓存失效场景</h3><p>现在的App为了全面分析用户的使用习惯，在网络请求时一般都会获取手机的一些硬件或网络信息，比如使用的网络环境。同时为了信息传输的安全性，可能还会对请求进行加密。在这些情况下OkHttp的缓存系统就会失效了，导致用户在无网络情况下不能访问缓存。</p>
-<p><strong>场景：网络请求中传递了随网络状态变化的参数。</strong></p>
-<p>Wi-Fi环境下网络请求的URL为：www.test.com/?id=1&amp;name=”Hello”&amp;network=”Wifi”</p>
-<p>在有网络的时候, 访问是正常的，并且对数据进行了缓存，但是当没有网络时，OkHttp会请求缓存数据，而缓存的存储规则就是Key-Value，使用URL的Md5字符串进行匹配时，因为URL发生了变化（此时的URL可能为www.test.com/?id=1&amp;name=”Hello”&amp;network=），导致不能匹配到相应的内容，缓存访问失败。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
-<li>先过滤可变参数，然后进行手动缓存，；</li>
-<li>不要使用随网络状态变化的参数；</li>
+<h3 id="Context类型"><a href="#Context类型" class="headerlink" title="Context类型"></a>Context类型</h3><p>阅读源码可得Context的类图，如下图所示（这里只画出了我们关注的类图部分）：<br><img src="http://od186sz8s.bkt.clouddn.com/context.png" alt=""><br>从Context的类图中可以看出，Android只为Application, Activity和Service这2个组件提供了Context，所以一个APP中Context的数量应该为：</p>
+<pre><code>// 单进程
+contextNum = activityNum + serviceNum + 1 (applicationNum)
+// 多进程
+contextNum = activityNum + serviceNum + processNum
+</code></pre><blockquote>
+<p>Application的实例数量取决于进程数，APP有几个进程，对应就有几个Application实例。所以如果一个APP中有多个进程，那么在Application的onCreate的初始化部分应该j进程名进行限制，避免初始化组件部分被多次执行。    </p>
+</blockquote>
+<pre><code>if (getPackageName().equals(AndroidPlatformUtil.getProcessName(this))) {
+    // 主进程初始化部分
+}
+</code></pre><h3 id="Context的常见使用场景"><a href="#Context的常见使用场景" class="headerlink" title="Context的常见使用场景"></a>Context的常见使用场景</h3><ul>
+<li>页面跳转</li>
+<li>根据服务获取系统参数；</li>
+<li>在Fragment中获取其Activity对象；</li>
+<li>单例模式中的应用</li>
+<li>创建View；</li>
+<li>弹出Toast;</li>
+<li>显示对话框</li>
+</ul>
+<h4 id="页面跳转"><a href="#页面跳转" class="headerlink" title="页面跳转"></a>页面跳转</h4><p>页面跳转一般我们都是从Activity/Fragment中进行跳转，这种情况下使用Context基本不会出现问题，如果需要在Service或Application进行跳转（不推荐这种方式），则需要新建一个任务栈；</p>
+<h4 id="根据服务获取系统参数"><a href="#根据服务获取系统参数" class="headerlink" title="根据服务获取系统参数"></a>根据服务获取系统参数</h4><p>获取系统服务时，推荐使用Application类型的Context，避免Activity为空获取系统服务时出现空指针异常。</p>
+<h4 id="在Fragment中获取其Activity对象"><a href="#在Fragment中获取其Activity对象" class="headerlink" title="在Fragment中获取其Activity对象"></a>在Fragment中获取其Activity对象</h4><p>这种场景使用比较普通，但存在的问题也多，最常见的莫过于getActivity()为null，出现这个问题的根本原因是：Fragment和Activity失去了关联，当Activity被重新创建之后，原来的Fragment并没有被销毁，就导致了与重新创建前的Activity失去了关联，此时在原来的Fragment中再使用getActivity()时就会返回为空。这种情况多出现在Fragment的异步操作中使用getActivity()的场景。所以在使用getActivity()时，最好对其进行非空判断。</p>
+<h4 id="在单例模式中使用"><a href="#在单例模式中使用" class="headerlink" title="在单例模式中使用"></a>在单例模式中使用</h4><p>在Android开发中，经常会使用单例模式，但是有些单例需要Context，然后就有了以下形式的单例实现：</p>
+<pre><code>public class Singleton {
+
+    private Context context;
+    private static Singleton instance = null;
+
+    private Singleton(Context context) {
+        this.context = context;
+    }
+
+    public static Singleton getInstance(Context context) {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton(context);
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+</code></pre><p>乍一看似乎没什么问题，但是回归到单例模式的本质，就会发现出现了内存泄漏。单例模式的特点就是在程序运行期间有且只有一个实例，也就是说，一旦创建，就始终在内存中（如果需要销毁，就没必要使用单例模式了），但是Activity类型的Context的生命周期仅限于页面的生命周期，所以在这种单例模式中，如果传入的Context是Activity类型的，则会导致页面关闭时Context无法释放，最终导致内存泄漏。</p>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ol>
+<li>传入Application类型的Context，因为Application类型的Context的生命周期就是APP的运行时间；</li>
+<li>创建单例对象时将将传入的context转换成Application类型的Context；</li>
 </ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实现在的网络缓存系统基本都是采用以URL的Md5字符串为Key, 访问内容为Value的存储方式。在访问缓存时通过URL的Md5方式进行匹配，从而获取缓存的内容。所以在使用缓存系统时，需要对URL进行过滤，过滤掉随网络状态改变的参数再进行缓存，否则将无法匹配到缓存的内容。</p>
+<pre><code>public static Singleton getInstance(Context context) {
+    if (instance == null) {
+        synchronized (Singleton.class) {
+            if (instance == null) {
+                instance = new Singleton(context.getApplicationContext());
+            }
+        }
+    }
+
+    return instance;
+}
+</code></pre><h4 id="弹出Toast"><a href="#弹出Toast" class="headerlink" title="弹出Toast"></a>弹出Toast</h4><pre><code>/**
+ * Make a standard toast that just contains a text view.
+ *
+ * @param context  The context to use.  Usually your {@link android.app.Application}
+ *                 or {@link android.app.Activity} object.
+ * @param text     The text to show.  Can be formatted text.
+ * @param duration How long to display the message.  Either {@link #LENGTH_SHORT} or
+ *                 {@link #LENGTH_LONG}
+ *
+ */
+public static Toast makeText(Context context, CharSequence text, @Duration int duration) {
+    return makeText(context, null, text, duration);
+}
+</code></pre><p>从设置toast内容的方法说明中可以看出，makeText中的Context既可以是Activity类型的，也可以是Application类型，所以为了避免Activity类型的Context为null出现闪退，推荐使用Application类型的Context。当然，在实际开发中我们也不会直接使用makeText来弹出toast信息, 毕竟参数太多，最后还要show,相对比较麻烦，所以都会进行简单的封装。</p>
+<pre><code>public class ToastUtil {
+
+    private static Context mContext;
+
+    // 在Application中初始化
+    pulbic static init(Context context) {
+        mContext = context.getApplicationContext();
+    }
+
+    public static show(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+}
+</code></pre><p>当然，也可对Toast的样式进行自定义：</p>
+<pre><code>public static Toast makeText(Context context, CharSequence text, @Duration int duration) {
+    Toast result = new Toast(context);
+
+    LayoutInflater inflate = (LayoutInflater)
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    View v = inflate.inflate(com.android.internal.R.layout.transient_notification, null);
+    TextView tv = (TextView)v.findViewById(com.android.internal.R.id.message);
+    tv.setText(text);
+
+    result.mNextView = v;
+    result.mDuration = duration;
+
+    return result;
+}
+</code></pre><p>从源码可知，Toast的本质就是一个TextView, 通过创建TextView, 设置样式，然后通过Toast.setView(textView)即可修改默认的显示样式，有兴趣的尝试一下。</p>
+<h4 id="显示对话框"><a href="#显示对话框" class="headerlink" title="显示对话框"></a>显示对话框</h4><p>创建对话框时Context必须使用Activity类型的，当Activity被销毁后再弹出对话框时（通常是Activity被系统杀掉了），APP就会crash，并报以下错误：</p>
+<pre><code>android.view.WindowManager$BadTokenException
+
+Unable to add window -- token android.os.BinderProxy@25c2334 is not valid; is your activity running?
+</code></pre><p>所以在显示对话框时，需要先判断当前的Activity是否还处于运行中，从而避免APP出现不可控制的闪退。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Context是Android开发中的一个重要角色，了解不同类型的Context的使用场景，可从根本上避免很多意外的Crash。</p>
 
       
     </div>
@@ -288,13 +387,13 @@
     <!--
 
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></p>
+        <p><span>本文标题:</span><a href="/2018/01/26/Context使用场景/">Context使用场景</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
-        <p><span>发布时间:</span>2016年05月13日 - 16时44分</p>
-        <p><span>最后更新:</span>2016年05月13日 - 18时55分</p>
+        <p><span>发布时间:</span>2018年01月26日 - 20时55分</p>
+        <p><span>最后更新:</span>2018年01月26日 - 20时56分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/13/OkHttp框架缓存的缺陷/" title="OkHttp框架缓存的缺陷">http://juhonggang.github.io/2016/05/13/OkHttp框架缓存的缺陷/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2016/05/13/OkHttp框架缓存的缺陷/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/26/Context使用场景/" title="Context使用场景">http://juhonggang.github.io/2018/01/26/Context使用场景/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/01/26/Context使用场景/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -308,18 +407,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          ViewPager实现炫酷的滑动缩放广告页
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/05/13/Android之自定义ProgressBar样式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android之自定义ProgressBar样式</div>
+    <a href="/2018/01/19/OkHttp缓存使用指南/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OkHttp缓存使用指南</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -354,13 +444,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/" title="上一篇: ViewPager实现炫酷的滑动缩放广告页">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/13/Android之自定义ProgressBar样式/" title="下一篇: Android之自定义ProgressBar样式">
+            <a href="/2018/01/19/OkHttp缓存使用指南/" title="下一篇: OkHttp缓存使用指南">
                 <i class="fa fa-angle-right"></i>
             </a>
         
