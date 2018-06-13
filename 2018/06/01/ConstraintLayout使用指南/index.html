@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ConstraintLayout使用指南 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ConstraintLayout是Google在2016年I/O大会上提出的一种全新的布局容器，其目标是简化布局层次，让布局尽可能扁平化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConstraintLayout使用指南">
+<meta property="og:url" content="http://juhonggang.github.io/2018/06/01/ConstraintLayout使用指南/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="ConstraintLayout是Google在2016年I/O大会上提出的一种全新的布局容器，其目标是简化布局层次，让布局尽可能扁平化。">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1696338-97401ca688918c0c?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://od186sz8s.bkt.clouddn.com/constraintLayout.png">
+<meta property="og:updated_time" content="2018-06-13T13:08:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConstraintLayout使用指南">
+<meta name="twitter:description" content="ConstraintLayout是Google在2016年I/O大会上提出的一种全新的布局容器，其目标是简化布局层次，让布局尽可能扁平化。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1696338-97401ca688918c0c?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-RatingBar/" style="font-size: 10px;">Android, RatingBar</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Context/" style="font-size: 10px;">Context</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/Http/" style="font-size: 13.33px;">Http</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 16.67px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/Shadow-阴影效果/" style="font-size: 10px;">Shadow, 阴影效果</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 16.67px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片优化/" style="font-size: 10px;">图片优化</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/网络编程/" style="font-size: 10px;">网络编程</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-ConstraintLayout使用指南" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/01/ConstraintLayout使用指南/" class="article-date">
+      <time datetime="2018-06-01T13:30:05.000Z" itemprop="datePublished">2018-06-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ConstraintLayout使用指南
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android-View/">Android, View</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ConstraintLayout/">ConstraintLayout</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>ConstraintLayout是Google在2016年I/O大会上提出的一种全新的布局容器，其目标是简化布局层次，让布局尽可能扁平化。</p>
+<a id="more"></a>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p>它具有LinearLayout和RelativeLayotu的所有特点，如线性布局，权重，相对位置，所以使用一层结构也可实现复杂的布局，大大简化了布局的层次结构。</p>
+<h3 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h3><p>ConstraintLayout提供了完善的约束方式，通过合理使用，我们可快速实现View的位置布局：</p>
+<pre><code>app:layout_constraintTop_toBottomOf
+app:layout_constraintLeft_toRightOf
+app:layout_constraintRight_toLeftOf
+app:layout_constraintBottom_toTopOf
+app:layout_constraintStart_toEndOf
+app:layout_constraintEnd_toStartOf
+app:layout_constraintBaseline_toBaselineOf
+</code></pre><p>这些属性都是layout_constraintX_toYOf形式，看起来很复杂，其实这只是为了清晰地表达约束条件而已，实际上在使用上我们只需要关注toYof部分，如：toBottomof表示在指定元素的底部。</p>
+<p>既然有依赖关系，那就存在所依赖的View被隐藏的情况，同RelativeLayout一样，如果所依赖的View被隐藏（visibility被设置为GONE）时，那所有的约束将失效。但与RelativeLayout不同的是，ConstraintLayout提供了所依赖的View被隐藏后设置margin的功能。</p>
+<pre><code>app:layout_goneMarginTop
+app:layout_goneMarginLeft
+app:layout_goneMarginRight
+app:layout_goneMarginBottom
+</code></pre><p>需要注意以下几点：</p>
+<ul>
+<li>上面的这几种属性的值大多数情况都应该使用指定View的id，而不是parent, 使用parent时，当前View被放置在parent的外侧，所以，只有特殊情况下才使用parent;</li>
+<li>layout_goneMarginX属性只有所依赖的一侧才有效。例如，当前View在所依赖的View的底部，那么只有layout_goneMarginTop才有效；</li>
+<li>layout_constraintBaseline_toBaselineOf这个属性，它表示以baseline对齐(baseline简单来说，就是文字的底部，而不是View的底部)，在文本对齐中很好用，使用RelativeLayout 时，对两个文字大小不同的TextView进行底部对齐时，设置了底部对齐，还需要设置margin来手动调整，而在ConstraintLayout中，使用layout_constraintBaseline_toBaselineOf就可直接对齐。 这个属性的优先级比layout_constraintTop_toBottomOf和layout_constraintBottom_toTopOf要高，所以同时使用时，会覆盖上面两个属性的值。</li>
+</ul>
+<h3 id="边距"><a href="#边距" class="headerlink" title="边距"></a>边距</h3><p>在ConstraintLayout中，我们发现layout_marginXXX不起作用，原因是没有对元素添加约束，所以在设置边距时，我们需要先设置约束条件，再使用layout_marginXXX属性：</p>
+<pre><code>// 距离父布局左侧24dp
+android:layout_marginLeft=&quot;24dp&quot;
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+
+ // 距离id为start_text的View左侧24dp
+android:layout_marginLeft=&quot;24dp&quot;
+app:layout_constraintLeft_toLeftOf=&quot;@id/start_text&quot;
+</code></pre><h3 id="对齐方式"><a href="#对齐方式" class="headerlink" title="对齐方式"></a>对齐方式</h3><p>在ConstraintLayout中，子元素不能使用layout_gravity属性设置对齐方式，而只能使用下面几个属性：</p>
+<pre><code>// 顶部对齐
+app:layout_constraintTop_toTopOf=&quot;parent&quot;
+// 左边对齐
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+// 右边对齐
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+// 底部对齐
+app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+</code></pre><p>这几个元素的值可为指定元素的id或parent, 为元素id表示与指定元素对齐，设置为parent表示与父布局的对齐方式。虽没有提供居中对齐(水平居中，垂直居中，居中)，但可通过组合的方式来实现：</p>
+<pre><code>// 水平居中
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+
+// 垂直居中
+app:layout_constraintTop_toTopOf=&quot;parent&quot;
+app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+
+// 居中
+app:layout_constraintTop_toTopOf=&quot;parent&quot;
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+</code></pre><p>实现起来还是比较麻烦，尤其是居中，需要四个属性组合才可以实现，但愿Google能够添加相应的属性，简化属性实现过程。当然，也可自己扩展。</p>
+<p>虽然ConstraintLayout没有提供单个的居中属性，但却提供了一个很别致的属性——Bias， 表示居中情况下的偏移，其取值为[0, 1]，默认为0.5。以水平方面来说，0表示左对齐，0.5表示水平对齐，1表示右对齐。当然，前提是要设置水平居中。</p>
+<pre><code>// 左对齐
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+app:layout_constraintHorizontal_bias=&quot;0&quot;
+
+// 右对齐
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+app:layout_constraintHorizontal_bias=&quot;1&quot;
+
+// 从水平中心点向左偏移一定的距离，偏移的距离=(ConstraintLayout.width - View.width) * 0.25
+app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraintRight_toRightOf=&quot;parent&quot;
+app:layout_constraintHorizontal_bias=&quot;0.25&quot;
+</code></pre><p>==特别说明:==</p>
+<p>ConstraintLayout中的View允许宽度或高度被设置为0dp, 但不能同时被设置为0dp。如果为0dp,则以wrap_content的形式显示。<br>当View居中（相对于ConstraintLayout居中或相对于指定View居中）显示时，如果是水平居中，width被设置为0dp，则width会被自动设置为所依赖的View的宽度，高度同理。</p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/text1&quot;
+        android:layout_width=&quot;100dp&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;Hello&quot;
+        android:gravity=&quot;center&quot;/&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/text2&quot;
+        android:layout_width=&quot;0dp&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;world&quot;
+        android:gravity=&quot;center&quot;
+        app:layout_constraintTop_toBottomOf=&quot;@id/text1&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;@id/text1&quot;
+        app:layout_constraintRight_toRightOf=&quot;@id/text1&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>这个布局中，text2的宽度将被自动设置成100dp。如果设置为以父布局居中，则宽度就是ConstraintLayout的宽度减去padding的距离。</p>
+<h3 id="比例"><a href="#比例" class="headerlink" title="比例"></a>比例</h3><p>ConstraintLayout还支持比例设置，通过layout_constraintDimensionRatio即可设置View的宽高比例：</p>
+<textview android:id="@+id/text1" android:layout_width="100dp" android:layout_height="0dp" android:text="Hello" android:gravity="center" android:background="#f00" app:layout_constrainttop_totopof="parent" app:layout_constraintdimensionratio="2:1">
+
+<p>但使用时需要注意以下几点：</p>
+<ul>
+<li>width或height有且只有一边需要设置为0dp, 另一边需要设置为固定值或match_parent;</li>
+<li>至少需要一个约束条件，如位置或对齐方式，否则设置的比例无效；</li>
+<li>layout_constraintDimensionRatio的值表示width:height,可设置为比例的形式，也可设置为比例值，如2:1或2。当然，也可指定为height:width：</li>
+</ul>
+<pre><code>app:layout_constraintDimensionRatio=&quot;H,2:1&quot; // 表示height:width=2:1
+</code></pre><h3 id="链条"><a href="#链条" class="headerlink" title="链条"></a>链条</h3><p>Chains是ConstraintLayout又一独特的地方，它可以看做是LinearLayout的另类实现。不过它只是一种逻辑上存在的概念，它的构成很简单：相互引用自成链。如：ViewA的位置设置为ViewB的左侧，ViewB的位置设置为ViewA的右侧，那么它们就形成了一条链，这条链最左侧或顶部的一个元素被称为链头，在链头中可通过layout_constraintHorizontal_chainStyle或layout_constraintVertical_chainStyle属性设置Chain的样式，它支持的样式包括以下几种：</p>
+<pre><code>spread：Views被等间距存放（默认样式）；
+spread_inside: 第一个和最后一个View靠边显示，其他View等间距显示；
+packed: Views紧挨着并居中显示；
+</code></pre><p>具体的显示效果可参考下图（图片来自<a href="https://upload-images.jianshu.io/upload_images/1696338-97401ca688918c0c?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" target="_blank" rel="external">张旭童同学的blog</a>）</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1696338-97401ca688918c0c?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
+<p>使用Chain时注意一下几点:</p>
+<ul>
+<li>第一个元素需要设置为左对齐或顶部对齐，最后一个元素需要设置为右对齐或底部对齐，否则即便互相引用，也不会以Chain形式展示。</li>
+<li>链头元素不能作为Chain外其他View的依赖元素，否则无法实现需要的位置关系。如ViewA需要在一条Chain的下面，则不能设置layout_constraintTop_toBottomOf为第一个元素，否则不会产生预期的效果；</li>
+</ul>
+<p>前面说了，ConstraintLayout也支持权重，只需要通过layout_constraintHorizontal_weight或layout_constraintVertical_weight来实现，如:</p>
+<pre><code>&lt;Button
+    android:id=&quot;@+id/button&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button&quot;
+    app:layout_constraintEnd_toStartOf=&quot;@+id/button2&quot;
+    app:layout_constraintStart_toStartOf=&quot;parent&quot;
+    app:layout_constraintTop_toBottomOf=&quot;@id/container_layout&quot;
+    app:layout_constraintHorizontal_chainStyle=&quot;packed&quot;/&gt;
+
+&lt;Button
+    android:id=&quot;@+id/button2&quot;
+    android:layout_width=&quot;0dp&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button&quot;
+    app:layout_constraintHorizontal_weight=&quot;1&quot;
+    app:layout_constraintEnd_toStartOf=&quot;@+id/button3&quot;
+    app:layout_constraintStart_toEndOf=&quot;@+id/button&quot;/&gt;
+
+&lt;Button
+    android:id=&quot;@+id/button3&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button&quot;
+    app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+    app:layout_constraintStart_toEndOf=&quot;@+id/button2&quot;/&gt;
+</code></pre><p>这条Chain中button2将占除了button1和button3之外所有空间，需要注意的是，设置权重时，对应的width或height必须设置为0dp, 否则设置的权重无效。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>上面已经对的属性进行了介绍，有必要小试牛刀了，实现以下布局：</p>
+<p><img src="http://od186sz8s.bkt.clouddn.com/constraintLayout.png" alt="image"></p>
+<p>使用LinearLayout和RelativeLayout，最少也需要2层布局才能实现，但是使用ConstraintLayout一层就可实现。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:paddingLeft=&quot;16dp&quot;
+    android:paddingRight=&quot;16dp&quot;&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;button1&quot;
+        app:layout_constraintHorizontal_chainStyle=&quot;spread&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/button2&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;/&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button2&quot;
+        android:layout_width=&quot;0dp&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;button2&quot;
+        app:layout_constraintHorizontal_weight=&quot;1&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/button1&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/button3&quot;/&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button3&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;button3&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/button2&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;/&gt;
+    &lt;View
+        android:id=&quot;@+id/view4&quot;
+        android:layout_width=&quot;120dp&quot;
+        android:layout_height=&quot;0dp&quot;
+        android:layout_marginTop=&quot;18dp&quot;
+        android:background=&quot;#e0e0e0&quot;
+        app:layout_constraintTop_toBottomOf=&quot;@id/button2&quot;
+        app:layout_constraintDimensionRatio=&quot;3:4&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/view5&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginLeft=&quot;12dp&quot;
+        android:text=&quot;上海市&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/view4&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/view4&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/view6&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginTop=&quot;6dp&quot;
+        android:layout_marginLeft=&quot;12dp&quot;
+        android:text=&quot;上海市浦东新区上海市浦东新区上海市浦东新区上海市浦东新区上海市浦东新区&quot;
+        app:layout_constraintTop_toBottomOf=&quot;@id/view5&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/view4&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/view7&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginLeft=&quot;12dp&quot;
+        android:text=&quot;上海市浦东新区&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/view4&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;@id/view4&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>虽然ConstraintLayout很强大，但通过真实的应用，感觉还是有点复杂(需要设置的属性太多)，所以在编写布局时，还是应该优先考虑RelativeLayout，对于复杂的布局，可考虑使用ConstraintLayout。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://www.jianshu.com/p/50debc330e91?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">ConstraintLayout 属性详解 和Chain的使用</a></p>
+</textview>
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/06/01/ConstraintLayout使用指南/">ConstraintLayout使用指南</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2018年06月01日 - 21时30分</p>
+        <p><span>最后更新:</span>2018年06月13日 - 21时08分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/01/ConstraintLayout使用指南/" title="ConstraintLayout使用指南">http://juhonggang.github.io/2018/06/01/ConstraintLayout使用指南/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/06/01/ConstraintLayout使用指南/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/13/Android内存优化之图片优化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android内存优化之图片优化</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/05/13/Android内存优化之图片优化/" title="下一篇: Android内存优化之图片优化">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/ConstraintLayout使用指南/">ConstraintLayout使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/13/Android内存优化之图片优化/">Android内存优化之图片优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/炫酷好用的ViewPager/">炫酷好用的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/26/Android开发中阴影效果的实现/">Android开发中阴影效果的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/24/让你的RatingBar更好用/">让你的RatingBar更好用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/26/Context使用场景/">Context使用场景</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/Http详解/">Http详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
