@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Kotlin开发细节 | Freeman的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Kotlin是一门优秀的语言，简洁的编码风格大大简化了开发过程。但是在使用的过程中，也发现了一些需要注意的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin开发细节">
+<meta property="og:url" content="http://juhonggang.github.io/2018/07/02/Kotlin开发细节/index.html">
+<meta property="og:site_name" content="Freeman的博客">
+<meta property="og:description" content="Kotlin是一门优秀的语言，简洁的编码风格大大简化了开发过程。但是在使用的过程中，也发现了一些需要注意的问题。">
+<meta property="og:updated_time" content="2018-07-02T13:03:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin开发细节">
+<meta name="twitter:description" content="Kotlin是一门优秀的语言，简洁的编码风格大大简化了开发过程。但是在使用的过程中，也发现了一些需要注意的问题。">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/head.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+       
+        <hgroup>
+          <h1 class="header-author"><a href="/">Freeman</a></h1>
+        </hgroup>
+
+        
+        
+        <!--
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        
+        -->
+       
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/friendlylink">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <!--
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android-Kotlin/" style="font-size: 10px;">Android, Kotlin</a> <a href="/tags/Android-RatingBar/" style="font-size: 10px;">Android, RatingBar</a> <a href="/tags/Android-类型选择控件/" style="font-size: 10px;">Android, 类型选择控件</a> <a href="/tags/Android移动方案/" style="font-size: 10px;">Android移动方案</a> <a href="/tags/Bitmap/" style="font-size: 13.33px;">Bitmap</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/ConstraintLayout/" style="font-size: 10px;">ConstraintLayout</a> <a href="/tags/Context/" style="font-size: 10px;">Context</a> <a href="/tags/Drawable/" style="font-size: 10px;">Drawable</a> <a href="/tags/Fresco/" style="font-size: 16.67px;">Fresco</a> <a href="/tags/Glide/" style="font-size: 13.33px;">Glide</a> <a href="/tags/GradientDrawable/" style="font-size: 10px;">GradientDrawable</a> <a href="/tags/HorizontalScrollView/" style="font-size: 10px;">HorizontalScrollView</a> <a href="/tags/Http/" style="font-size: 13.33px;">Http</a> <a href="/tags/Https/" style="font-size: 10px;">Https</a> <a href="/tags/ImageLoader/" style="font-size: 10px;">ImageLoader</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/MVP/" style="font-size: 13.33px;">MVP</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/OkHttp/" style="font-size: 16.67px;">OkHttp</a> <a href="/tags/Picasso/" style="font-size: 10px;">Picasso</a> <a href="/tags/ProgressBar样式/" style="font-size: 10px;">ProgressBar样式</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/ScrollView/" style="font-size: 10px;">ScrollView</a> <a href="/tags/Shadow-阴影效果/" style="font-size: 10px;">Shadow, 阴影效果</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/StateListDrawable/" style="font-size: 10px;">StateListDrawable</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Universal-ImageLoader/" style="font-size: 13.33px;">Universal ImageLoader</a> <a href="/tags/ViewPager/" style="font-size: 16.67px;">ViewPager</a> <a href="/tags/ViewPager动画/" style="font-size: 10px;">ViewPager动画</a> <a href="/tags/ViewPager循坏播放/" style="font-size: 10px;">ViewPager循坏播放</a> <a href="/tags/ViewPager自动播放/" style="font-size: 10px;">ViewPager自动播放</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/git-init/" style="font-size: 10px;">git init</a> <a href="/tags/man/" style="font-size: 10px;">man</a> <a href="/tags/scrollview/" style="font-size: 10px;">scrollview</a> <a href="/tags/tabIndicator/" style="font-size: 10px;">tabIndicator</a> <a href="/tags/view动画/" style="font-size: 10px;">view动画</a> <a href="/tags/七牛云存储/" style="font-size: 10px;">七牛云存储</a> <a href="/tags/下拉刷新-上拉加载/" style="font-size: 10px;">下拉刷新 上拉加载</a> <a href="/tags/不同Item布局/" style="font-size: 10px;">不同Item布局</a> <a href="/tags/代码上传/" style="font-size: 10px;">代码上传</a> <a href="/tags/内存缓存/" style="font-size: 10px;">内存缓存</a> <a href="/tags/卡顿/" style="font-size: 10px;">卡顿</a> <a href="/tags/启动模式/" style="font-size: 10px;">启动模式</a> <a href="/tags/图文混排/" style="font-size: 10px;">图文混排</a> <a href="/tags/图文转换/" style="font-size: 10px;">图文转换</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/图片优化/" style="font-size: 10px;">图片优化</a> <a href="/tags/图片裁剪/" style="font-size: 13.33px;">图片裁剪</a> <a href="/tags/图片选择/" style="font-size: 13.33px;">图片选择</a> <a href="/tags/圆形图片/" style="font-size: 10px;">圆形图片</a> <a href="/tags/圆角图片/" style="font-size: 10px;">圆角图片</a> <a href="/tags/布局优化/" style="font-size: 10px;">布局优化</a> <a href="/tags/帮助文档/" style="font-size: 10px;">帮助文档</a> <a href="/tags/拍照/" style="font-size: 13.33px;">拍照</a> <a href="/tags/水波效果/" style="font-size: 10px;">水波效果</a> <a href="/tags/滑动冲突/" style="font-size: 10px;">滑动冲突</a> <a href="/tags/滑动删除/" style="font-size: 10px;">滑动删除</a> <a href="/tags/滑动缩放/" style="font-size: 10px;">滑动缩放</a> <a href="/tags/滑动距离/" style="font-size: 10px;">滑动距离</a> <a href="/tags/相册/" style="font-size: 10px;">相册</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/缩放/" style="font-size: 10px;">缩放</a> <a href="/tags/网络编程/" style="font-size: 10px;">网络编程</a> <a href="/tags/远程服务器/" style="font-size: 10px;">远程服务器</a> <a href="/tags/选择图片，图片压缩，图片上传/" style="font-size: 10px;">选择图片，图片压缩，图片上传</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+                -->
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Freeman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/head.jpg" class="js-avatar" style="width: 100%; height: 100%; opacity: 1;">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Freeman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/friendlylink">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=&#106;&#104;&#103;&#49;&#50;&#48;&#52;&#64;&#115;&#105;&#110;&#97;&#46;&#99;&#111;&#109;" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/JuHonggang" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Kotlin开发细节" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/02/Kotlin开发细节/" class="article-date">
+      <time datetime="2018-07-02T07:21:00.000Z" itemprop="datePublished">2018-07-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kotlin开发细节
+    </h1>
+  
+
+      </header>
+      <!-- 隐藏文章分类和标签
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Kotlin/">Android, Kotlin</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+      -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Kotlin是一门优秀的语言，简洁的编码风格大大简化了开发过程。但是在使用的过程中，也发现了一些需要注意的问题。</p>
+<a id="more"></a>
+<h3 id="findViewById"><a href="#findViewById" class="headerlink" title="findViewById"></a>findViewById</h3><p>使用Kotlin开发Android应用程序时，不需要通过findViewById获取指定id的View控件，在大多数情况下，这都没什么问题，但是在动态加载布局或使用AbsListView/RecyclerView等集合类的View组件时，需要以itemLayout.viewId的方式来引用，直接通过viewId不能关联到指定View：</p>
+<pre><code>// Activity/Fragment/Dialog 引用的方式
+toolbar.title = &quot;标题&quot;
+
+// 动态添加的子布局/需要适配器的容器类组件的引用方式
+val itemView = View.inflate(this, R.layout.item_home_comment_of_list_layout, null)
+itemView.name_text.text = &quot;Freeman&quot;
+</code></pre><h3 id="static成员"><a href="#static成员" class="headerlink" title="static成员"></a>static成员</h3><p>Kotlin中不支持static成员，可通过companion关键字来实现相应的功能：</p>
+<pre><code>companion object {
+    fun enter(context: Context, id: String) {
+        var intent = Intent(context, TargetActivity::class.java)
+        intent.putExtra(&quot;id&quot;, id)
+        context.startActivity(intent)
+    }
+}
+
+// Java代码中的调用
+XXXActivity.Companion.enter(mContext, &quot;123&quot;);
+
+// Kotin代码中的调用：
+XXXActivity.enter(mContext, &quot;123&quot;);
+</code></pre><h3 id="换行问题"><a href="#换行问题" class="headerlink" title="换行问题"></a>换行问题</h3><p>由于Kotlin语言每一行代码是不需要分号表示结束的，同时支持任意的字符，变量，表达式的直接引用：</p>
+<pre><code>// 以下语句在Kotlin中都是合法的
+var i = 10
+var j = 20
+100
+200
+i
+i + j
+</code></pre><p>所以在对比较长的表达式进行换行时，需要注意操作符的位置：</p>
+<pre><code>// 伪代码：JAVA版(换行时提倡操作符写在下一行)
+int value = expression_A + expression_B
+    + expression_C
+</code></pre><p>如果Kotlin使用Java规范编写上面的代码，那么value的值为(expression_A + expression_B), 而（+ expression_C）会被编译器当做下一跳语句，所以Kotlin中正确的写法应该是 —— 操作符留在前一行的尾部或使用括号将表达式括起来。</p>
+<pre><code>val value = expression_A + expression_B + 
+    expression_C
+// 或者
+val value = (expression_A + expression_B 
+    + expression_C)
+</code></pre><h3 id="非空问题"><a href="#非空问题" class="headerlink" title="非空问题"></a>非空问题</h3><p>虽然Kotlin不需要像Java一样进行显式的非空判断，但在使用Kotlin的非空运算符时还是要注意。Kotlin提供了两种非空运算符：</p>
+<pre><code>!!: 表示对象不为空时取其值，否则抛出NullPointerException;
+?.: 表示对象不为空时取其值，否则当做null来处理；
+</code></pre><p> 相对来说，[?.]运算符安全许多，至少不会直接抛出异常。但当作为方法的参数时，如果该方法的参数不接收非空值，此时仍然会抛出NullPointerException。 如果方法的参数为引用类型，接收空值，那么在方法中引用参数的成员变量时需使用非空操作符。为了避免在方法中到处都是非空操作符可使用以下两种方案进行解决：</p>
+<ul>
+<li>引用类型的参数定义为非空类型，然后在调用时进行显式的非空判断；</li>
+<li>引用类型的参数定义为可为空的类型，然后在方法开始时判断;</li>
+</ul>
+<pre><code>// 第一种方法： 
+fun printStr(person : Person) {
+    println(&quot;Name=${person.name} Age=${person.age}&quot;)
+}
+
+// 第二种方法： 
+fun printStr2(person : Person?) {
+    if (person == null) {
+        return
+    }
+    println(&quot;Name=${person.name} Age=${person.age}&quot;)
+}
+
+class Person {
+    public var name : String? = &quot;Freeman&quot;
+    public var age : Int? = 20
+}
+
+fun main(args: Array&lt;String&gt;) {
+    val person : Person ? = Person()
+    // 第一种方法调用
+    if (person != null) {
+        printStr(person!!)
+    }
+    // 第二种方法调用
+    printStr(person)
+}
+</code></pre><p> 整体来说，第二种方案封装性更好，调用也更简单，但它有个致命的问题，方法中参数的非空判断不能通过调用方法来判断，比如：</p>
+<pre><code>fun isEmpty(obj : Any?) : Boolean {
+    if (obj == null) {
+        return true
+    }
+
+    return false
+}
+</code></pre><p>如果使用isEmpty()来判断非空，那么后面引用成员变量时仍然需要非空运算符，对于普通对象这个问题倒没什么影响，但对于集合或数组类型的参数，我们通常都是封装的非空方法来判断，此时的非空判断就没多大意义了。所以第一种方法应用场景更广，熟练掌握这两种方案，就可保证在不抛出NullPointerException的同时消除代码中大多数的非空操作符。</p>
+<p>对于成员变量，如果能够保证后面对其进行初始化，那么可使用lateinit延迟初始化，避免在引用其成员变量时使用非空运算符：</p>
+<pre><code>lateinit var userInfo : UserInfo
+if (ClassName::userInfo.isInitialized) {
+    println(userInfo.name)
+}
+</code></pre><h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><p>在Java中由于不能在字符串中直接取变量或表达式的值，所以当需要在某个字符串中显示变量或表达式的值时只能通过字符串拼接来实现。而Kotlin中提供了取值的功能，这样就不需要进行拼接了。</p>
+<pre><code>// Java版
+int a = 10;
+int b = 20;
+System.out.println(&quot;a=&quot; + a + &quot; b=&quot; + b + &quot; a+b=&quot; + (a+b));
+
+// Kotlin版本
+val a = 10
+val b = 20
+print(&quot;a=$a b=$b a+b=${a+b}&quot;)
+</code></pre><p>Java中字符串拼接非字符串的常量时，字符串的位置没有限制，但是在Kotlin中拼接时，字符串只能放在前面：</p>
+<pre><code>// Java
+String value = &quot;value=&quot; + 5;
+String value2 = 5 + &quot; apples&quot;;
+
+// Kotlin(拼接时不支持字符串后置)
+val value = &quot;value=&quot; + 5
+</code></pre><h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><p>其他的问题，如:使用equals比较，容器根据index取值等，在编码过程中AS会自动提示警告，根据提示进行修改即可。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上问题是在使用过程中发现的一些细节问题，可能还有其他的细节问题暂未遇到，欢迎补充。当然，如有不正之处，也欢迎指正。</p>
+
+      
+    </div>
+    
+  </div>
+
+  
+    <!--
+
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/02/Kotlin开发细节/">Kotlin开发细节</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
+        <p><span>发布时间:</span>2018年07月02日 - 15时21分</p>
+        <p><span>最后更新:</span>2018年07月02日 - 21时03分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/02/Kotlin开发细节/" title="Kotlin开发细节">http://juhonggang.github.io/2018/07/02/Kotlin开发细节/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/07/02/Kotlin开发细节/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+-->
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/10/Android性能优化之布局优化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android性能优化之布局优化</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+     
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'juhonggang',
+      repo: 'juhonggang.github.io',
+      oauth: {
+        client_id: '90ce075a6c4d9dc5e929',
+        client_secret: 'd7a17d539c2c332601027fed0f8ba85b6a16bc0c',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+<!-- 隐藏左侧按钮
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/06/10/Android性能优化之布局优化/" title="下一篇: Android性能优化之布局优化">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/07/02/Kotlin开发细节/">Kotlin开发细节</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/10/Android性能优化之布局优化/">Android性能优化之布局优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/ConstraintLayout使用指南/">ConstraintLayout使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Https诞生记/">Https诞生记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/13/Android内存优化之图片优化/">Android内存优化之图片优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/炫酷好用的ViewPager/">炫酷好用的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/26/Android开发中阴影效果的实现/">Android开发中阴影效果的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/24/让你的RatingBar更好用/">让你的RatingBar更好用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/26/Context使用场景/">Context使用场景</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/19/OkHttp缓存使用指南/">OkHttp缓存使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/16/Http详解/">Http详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/网络编程之理论篇/">网络编程之理论篇.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/简洁的下拉刷新组件/">简洁的下拉刷新组件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/图片加载库的二次封装/">图片加载库的二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/简单 强大的图片库操作库/">强大的图片操作库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/简化View的背景定义/">简化View的背景定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/UIL源码解析之内存缓存/">UIL源码解析之内存缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/05/Android开发之设置用户头像/">Android开发之设置用户头像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/解耦项目中的图片加载库/">解耦项目中的图片加载库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/13/Android-MVP架构解读/">Android MVP架构解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/12/Retrofit-RxJava实现MVP模式/">Retrofit+RxJava实现MVP模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/自定义强大的TabPagerIndicator/">自定义强大的TabPagerIndicator</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Retrofit的基本用法/">Retrofit的基本用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/实现自动播放的ViewPager/">实现自动播放的ViewPager</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/Android动画之View动画详解/">Android动画之View动画详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/OkHttp使用教程/">OkHttp使用教程之请求篇一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/19/ScrollView与ViewPager的滑动冲突问题/">ScrollView与ViewPager的滑动冲突问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/18/ScrollView获取滑动距离/">ScrollView获取滑动距离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/14/高仿Uber的类型选择控件/">高仿Uber的类型选择控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/25/添加帮助文档到man搜索路径/">添加帮助文档到man搜索路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/MongoDB基本操作/">MongoDB基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/C语言操作mongodb/">C语言操作mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android实现仿水波效果/">Android实现仿水波效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/Android如何将图片上传到七牛云存储/">Android如何将图片上传到七牛云存储</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/16/ViewPager实现炫酷的滑动缩放广告页/">ViewPager实现炫酷的滑动缩放广告页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/OkHttp框架缓存的缺陷/">OkHttp框架缓存的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/13/Android之自定义ProgressBar样式/">Android之自定义ProgressBar样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android之图片选择与裁剪/">Android之图片选择与裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/使用Git将代码上传到远程服务器/">使用Git将代码上传到远程服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/如何将图文转换成图片/">如何将图文转换成图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/打造原生的图文混排控件/">打造原生的图文混排控件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Drawable与Bitmap转换/">Drawable与Bitmap的转换及缩放</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/04/Activity启动模式详解/">Activity启动模式详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/ListView加载不同Item布局/">ListView加载不同Item布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/HorizontalScrollView实现QQ侧滑删除/">HorizontalScrollView高仿QQ滑动删除</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+-->
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Freeman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >访问量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- 
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 20;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            #$(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+ -->
+
+
+
+
+<!-- 隐藏右侧回滚顶部和底部布局
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+-->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
