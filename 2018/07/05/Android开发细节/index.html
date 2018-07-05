@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>自定义圆形图片和圆角图片 | Freeman的博客</title>
+  <title>Android开发细节 | Freeman的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在开发中，圆形图片和圆角图片应该是最常用的。当然，实现的方式也多种多样，甚至有些图片加载库中已经集成了这两种形状。本文采用自定义View的方式来实现这两种形状的图片。">
+  <meta name="description" content="Android开发中有一些小的知识点，了解了不仅能能够避免很多坑，同时也能够简化开发过程，提高代码的健壮性。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自定义圆形图片和圆角图片">
-<meta property="og:url" content="http://juhonggang.github.io/2016/05/12/自定义圆形图片和圆角图片/index.html">
+<meta property="og:title" content="Android开发细节">
+<meta property="og:url" content="http://juhonggang.github.io/2018/07/05/Android开发细节/index.html">
 <meta property="og:site_name" content="Freeman的博客">
-<meta property="og:description" content="在开发中，圆形图片和圆角图片应该是最常用的。当然，实现的方式也多种多样，甚至有些图片加载库中已经集成了这两种形状。本文采用自定义View的方式来实现这两种形状的图片。">
-<meta property="og:updated_time" content="2016-05-12T11:37:10.000Z">
+<meta property="og:description" content="Android开发中有一些小的知识点，了解了不仅能能够避免很多坑，同时也能够简化开发过程，提高代码的健壮性。">
+<meta property="og:updated_time" content="2018-07-05T12:51:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自定义圆形图片和圆角图片">
-<meta name="twitter:description" content="在开发中，圆形图片和圆角图片应该是最常用的。当然，实现的方式也多种多样，甚至有些图片加载库中已经集成了这两种形状。本文采用自定义View的方式来实现这两种形状的图片。">
+<meta name="twitter:title" content="Android开发细节">
+<meta name="twitter:description" content="Android开发中有一些小的知识点，了解了不仅能能够避免很多坑，同时也能够简化开发过程，提高代码的健壮性。">
   
     <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
   
@@ -219,11 +219,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-自定义圆形图片和圆角图片" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android开发细节" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/12/自定义圆形图片和圆角图片/" class="article-date">
-      <time datetime="2016-05-12T11:09:30.000Z" itemprop="datePublished">2016-05-12</time>
+      <a href="/2018/07/05/Android开发细节/" class="article-date">
+      <time datetime="2018-07-05T12:00:23.000Z" itemprop="datePublished">2018-07-05</time>
 </a>
     </div>
   
@@ -236,7 +236,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自定义圆形图片和圆角图片
+      Android开发细节
     </h1>
   
 
@@ -245,10 +245,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/圆形图片/">圆形图片</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/圆角图片/">圆角图片</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分割线，背景，富文本，黑白屏/">分割线，背景，富文本，黑白屏</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -259,22 +263,205 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在开发中，圆形图片和圆角图片应该是最常用的。当然，实现的方式也多种多样，甚至有些图片加载库中已经集成了这两种形状。本文采用自定义View的方式来实现这两种形状的图片。</p>
+        <p>Android开发中有一些小的知识点，了解了不仅能能够避免很多坑，同时也能够简化开发过程，提高代码的健壮性。</p>
 <a id="more"></a>
-<h4 id="自定义View的流程："><a href="#自定义View的流程：" class="headerlink" title="自定义View的流程："></a>自定义View的流程：</h4><ol>
-<li>在res/values/attrs.xml中定义View的属性；</li>
-<li>重写View的构造方法，并在其中获取属性值；</li>
-<li>重写View的onDraw方法和onMeasure方法（具体看需求）；</li>
-</ol>
-<h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>通过属性区分圆形图片和圆角图片，同时支持设置圆形图片和圆角图片的边框宽度和颜色。所以我们只需要自定义四个属性即可：</p>
-<p><strong>在res/value/attrs.xml中定义属性：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;declare-styleable name=&quot;RoundImageView&quot;&gt;</span><br><span class="line">    &lt;!-- 是否为圆 默认为false, true表示圆, false表示圆角--&gt;</span><br><span class="line">    &lt;attr name=&quot;isCircle&quot; format=&quot;boolean&quot;/&gt;</span><br><span class="line">    &lt;!-- 圆角矩形圆角的角度 --&gt;</span><br><span class="line">    &lt;attr name=&quot;angle&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">    &lt;!-- 边框的宽度 --&gt;</span><br><span class="line">    &lt;attr name=&quot;strokeWidth&quot; format=&quot;dimension&quot;/&gt;</span><br><span class="line">    &lt;!-- 边框的颜色 --&gt;</span><br><span class="line">    &lt;attr name=&quot;strokeColor&quot; format=&quot;color&quot;/&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>重写构造方法，并获取属性值：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public RoundImageView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public RoundImageView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">    super(context, attrs);</span><br><span class="line">    TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);</span><br><span class="line">    isCircle = typedArray.getBoolean(R.styleable.RoundImageView_isCircle, false);</span><br><span class="line">    angle = (int)typedArray.getDimension(R.styleable.RoundImageView_angle, 20);</span><br><span class="line">    strokeWidth = (int)typedArray.getDimension(R.styleable.RoundImageView_strokeWidth, 0);</span><br><span class="line">    strokeColor = typedArray.getColor(R.styleable.RoundImageView_strokeColor, Color.parseColor(&quot;#00000000&quot;));</span><br><span class="line">    typedArray.recycle();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public RoundImageView(Context context, AttributeSet attrs, int theme) &#123;</span><br><span class="line">    super(context, attrs, theme);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>重写onDraw方法绘制圆形图片和圆角图片：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    Drawable drawable = getDrawable();</span><br><span class="line">    if (drawable != null) &#123;</span><br><span class="line">        int width = getWidth();</span><br><span class="line">        int height = getHeight();</span><br><span class="line">        Bitmap bitmap = Bitmap.createScaledBitmap(drawableToBitmap(drawable), width, height, false);</span><br><span class="line">        int radius = Math.min(width, height) / 2;</span><br><span class="line">        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);</span><br><span class="line">        Paint paint = new Paint();</span><br><span class="line">        paint.setAntiAlias(true);</span><br><span class="line">        paint.setShader(shader);</span><br><span class="line">			</span><br><span class="line">		// 绘制图片边框</span><br><span class="line">        if (strokeWidth != 0) &#123;</span><br><span class="line">            Paint boardPaint = new Paint();</span><br><span class="line">            boardPaint.setAntiAlias(true);</span><br><span class="line">            boardPaint.setColor(strokeColor);</span><br><span class="line">            boardPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">            boardPaint.setStrokeWidth(strokeWidth);</span><br><span class="line">            if (isCircle) &#123;</span><br><span class="line">                canvas.drawCircle(width / 2, height / 2, radius - strokeWidth/2, boardPaint);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                canvas.drawRoundRect(new RectF(strokeWidth, strokeWidth, width-strokeWidth, height-strokeWidth), angle, angle, boardPaint);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">		// 绘制图片（注意：绘制的图片大小要考虑边框，否则将覆盖边框）</span><br><span class="line">        if (isCircle) &#123;</span><br><span class="line">            canvas.drawCircle(width / 2, height / 2, radius - strokeWidth, paint);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            canvas.drawRoundRect(new RectF(strokeWidth, strokeWidth, width-strokeWidth, height-strokeWidth), angle, angle, paint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 将Drawable转换为Bitmap</span><br><span class="line"> * /</span><br><span class="line"> private Bitmap drawableToBitmap(Drawable drawable) &#123;</span><br><span class="line">    if (drawable instanceof BitmapDrawable) &#123;</span><br><span class="line">        return ((BitmapDrawable) drawable).getBitmap();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        int width = drawable.getIntrinsicWidth();</span><br><span class="line">        int height = drawable.getIntrinsicHeight();</span><br><span class="line">        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);</span><br><span class="line">        Canvas canvas =  new Canvas(bitmap);</span><br><span class="line">        drawable.draw(canvas);</span><br><span class="line">        return bitmap;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在xml文件中使用RoundImageView，并设置相应的属性即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.sxu.roundimagedemo.RoundImageView</span><br><span class="line">    android:id=&quot;@+id/icon_image4&quot;</span><br><span class="line">    android:layout_width=&quot;150dp&quot;</span><br><span class="line">    android:layout_height=&quot;100dp&quot;</span><br><span class="line">    android:layout_marginTop=&quot;15dp&quot;</span><br><span class="line">    android:scaleType=&quot;centerCrop&quot;</span><br><span class="line">    app:strokeColor=&quot;#40000000&quot;</span><br><span class="line">    app:strokeWidth=&quot;4dp&quot;</span><br><span class="line">    app:angle=&quot;10dp&quot;</span><br><span class="line">    android:src=&quot;@drawable/icon&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>分割线是Android开发中一个常用的UI元素，我们可通过定义一个View，并设置背景来实现，但其实AbsListView和LinearLayout都提供了分割线的功能:</p>
+<h4 id="AbsListView"><a href="#AbsListView" class="headerlink" title="AbsListView"></a>AbsListView</h4><p>AbsListView通过divider和dividerHeight来控制分割线的样式，通常情况下这两个属性就够了，但是当需要设置分割线的边距时，就无法满足需求了，这时可通过2种方式来实现：</p>
+<ul>
+<li>隐藏ListView默认的分割线，在item_layout中添加一个View作为分割线；</li>
+<li>自定义Drawable作为分割线；</li>
+</ul>
+<p>第一种方式需要修改item_layout布局, 不推荐。这里我们使用第二种方案：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;inset xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:insetLeft=&quot;24dp&quot;
+    android:insetRight=&quot;24dp&quot;&gt;
+    &lt;shape android:shape=&quot;rectangle&quot;&gt;
+        &lt;solid android:color=&quot;#e0e0e0&quot;/&gt;
+        &lt;size android:height=&quot;1px&quot;/&gt;
+    &lt;/shape&gt;
+&lt;/inset&gt;
+</code></pre><p>通过insetLeft和insetRight我们能够很容易地控制分割线的边距。接下来只需要将这个Drawable资源引用到divider属性中即可。</p>
+<p>这里顺便说一下分割线资源的命名，在开发中可能会有多个分割线样式，为了便于复用，推荐使用以下命名方式：</p>
+<pre><code>divider_color_left_right  
+// 如：divider_e0e0e0_24dp_12dp, 表示分割线颜色为#e0e0e0, 左边距为24dp, 右边距为12dp
+</code></pre><h4 id="LinearLayout"><a href="#LinearLayout" class="headerlink" title="LinearLayout"></a>LinearLayout</h4><p>LinearLayout中对于分割线提供了3个属性：</p>
+<pre><code>divider:分割线的样式，取值为颜色值或drawable
+showDividers: 分割线的位置，取值为：beginning, middle, end，依次表示第一个childView前面的分割线，childView之间的分割线，最后一个chidView后面的分割线，所以可通过这三个值的组合来实现需要效果；
+dividerPadding: 分割线的Padding，如果LinearLayout为垂直的，则表示分割线的左右padding, 否则表示上下padding;
+
+&lt;LinearLayout
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:divider=&quot;#eee&quot;
+    android:showDividers=&quot;middle&quot;
+    android:dividerPadding=&quot;24dp&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+    ...
+&lt;/LinearLayout&gt;
+</code></pre><p>虽然LinearLayout的分割线可以通过dividerPadding设置边距，但设置的是两边的，如果只需要左边距为24dp的分割线，那就只能将divider设置为上面自定义的分割线，在Drawable中设置边距。</p>
+<h3 id="黑白屏问题"><a href="#黑白屏问题" class="headerlink" title="黑白屏问题"></a>黑白屏问题</h3><p>默认情况下，APP在启动时会有一个黑屏/白屏(依据主题而定)，解决方案通常有2中：</p>
+<ul>
+<li>使用透明背景，如微信；</li>
+<li>使用启动页的图片作为背景；</li>
+</ul>
+<p>使用透明背景, 也就是将主题的背景设置为透明。这种方式有点甩锅的意思（既然是你Android自己的问题，那你就背锅吧），体验度可以说很差，点击了APP图标，1s之后才有反应，会让用户以为手机卡了呢？另一种实现方式，是目前大多数APP采用的方案，使用起来也很简单，只需要自定义一个主题，将背景设置为启动页的图片，并应用于SplashActivity。</p>
+<pre><code>&lt;style name=&quot;SplashTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;
+    &lt;item name=&quot;android:windowNoTitle&quot;&gt;true&lt;/item&gt;
+    &lt;item name=&quot;android:windowFullscreen&quot;&gt;false&lt;/item&gt;
+    &lt;item name=&quot;android:windowBackground&quot;&gt;@drawable/splash_bg&lt;/item&gt;
+&lt;/style&gt;
+</code></pre><p>但这种直接使用启动页图片的方式也存在1个明显的缺陷：需要针对不同的屏幕适配不同的尺寸的图片；而这种图片一般都很大，所以无形中增加了APK的大小。</p>
+<p>那有没有更好的实现方案呢？分析一下当前APP启动页的主流设计，启动页的设计无非3个元素：背景，Logo, 宣传语。既然这样，那可以通过定义Drawable资源文件来实现，通过layer-list叠加这3个元素，达到设计图的效果。</p>
+<p>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <layer-list xmlns:android="http://schemas.android.com/apk/res/android"><br>        <item><br>            <shape android:shape="rectangle"><br>                <gradient android:startcolor="@color/z2" android:endcolor="@color/z3" android:angle="225"><br>            </gradient></shape><br>        </item><br>        <item><br>            <bitmap android:gravity="center" android:src="@drawable/logo"><br>        </bitmap></item><br>    </layer-list><br>使用这种方式的好处是：Logo, 宣传语不会变形，即便只有一组切图。当然，对于比较复杂的启动页，还是直接使用多套切图来实现。</p>
+<h3 id="Toast的使用"><a href="#Toast的使用" class="headerlink" title="Toast的使用"></a>Toast的使用</h3><p>Toast是Android开发中常用的一个小组件, 使用的时候最好将其封装一下，主要解决以下问题:</p>
+<ul>
+<li>简化调用，直接传入提示信息即可；</li>
+<li>降低耦合，实现样式的自定义；</li>
+<li>共享Toast对象，解决快速点击导致提示长时间显示的问题；</li>
+</ul>
+<p>具体的代码可参考：<a href="https://github.com/JuHonggang/SimpleProject/blob/master/baselibrary/src/main/java/com/sxu/baselibrary/commonutils/ToastUtil.java" target="_blank" rel="external">ToastUtil</a></p>
+<h3 id="页面跳转"><a href="#页面跳转" class="headerlink" title="页面跳转"></a>页面跳转</h3><p>在开发中，有时候会遇到这样的需求，在A页面点击下一步跳转到C页面，按返回键后返回到B页面，这个时候startActivities就该排上用场了，startActivities会将指定的Activity全部加入到Activity Task中，并启动最后一个Activity：</p>
+<pre><code>Intent[] intent = new Intent[2];
+intent[0] = new Intent(this, BActiity.class);
+intent[1] = new Intent(this, CActivity.class);
+startActivities(intent);
+</code></pre><p>在跳转到第三方APP的时候，应该判断指定的Activity是否存在，否则可能会出现ActivityNotFoundException。</p>
+<pre><code>if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+    startActivity(intent);
+} else {
+    ToastUtil.show(this, &quot;没有找到指定的Activity~&quot;);
+}
+</code></pre><p>或者使用Intent的resolveActivity方法：</p>
+<pre><code>if (intent.resolveActivity(getPackageManager()) != null) {
+    startActivity(intent);
+} else {
+    ToastUtil.show(this, &quot;没有找到指定的Activity~&quot;);
+}
+</code></pre><h3 id="clipPadding属性"><a href="#clipPadding属性" class="headerlink" title="clipPadding属性"></a>clipPadding属性</h3><p>默认情况下，padding属性所占的空间不在可滑动的范围内，我们可通过将clipPadding属性设置为false，将padding所占用的空间加入到可滑动的部分，这在可滑动的View中非常有用。比如，ListView的头部需要留60dp的空白，我们可通过padding属性来实现：</p>
+<pre><code>android:paddingTop=&quot;60dp&quot;
+android:clipPadding=&quot;false&quot;
+</code></pre><p>而不是添加一个高度为60dp的headerView。</p>
+<h3 id="Context的使用"><a href="#Context的使用" class="headerlink" title="Context的使用"></a>Context的使用</h3><p>Context是我们常用的类，但在使用时需要注意以下几点：</p>
+<ul>
+<li>在单例或静态方法中，优先使用ApplcationContext类型的Context;</li>
+<li>在Activity或Service中定义内部类时，需定义成静态的，因为非静态内部类持有外部类的引用，会引起内存泄漏；</li>
+<li>多进程的Application中的onCreate()会被执行多次，所以需要对其进行进程隔离，即：在各自的进程中执行各自的任务；</li>
+</ul>
+<pre><code>if (getPackageName().equals(AppUtil.getProcessName(this))) {
+    ...
+} else if (&quot;processId&quot;.equals(AppUtil.getProcessName(this))) {
+    ...
+}
+</code></pre><h3 id="文字单位"><a href="#文字单位" class="headerlink" title="文字单位"></a>文字单位</h3><p>Google推荐文字的单位使用sp, 但是sp不仅跟屏幕密度有关，还与系统设置的字体大小有关，所以如果要使用sp, 对于TextView及其子类，以及所在的ViewGroup，应避免使用固定的宽度和高度，同时需要对修改系统文字大小进行兼容性测试，避免布局出现重叠问题。所以，为了更好的兼容性，以及UI的一致性，推荐使用dp作为文字的单位。</p>
+<h3 id="Resource的使用"><a href="#Resource的使用" class="headerlink" title="Resource的使用"></a>Resource的使用</h3><p>使用系统资源时，优先使用Resource.getSystem()， 可避免对Context的引用。如获取屏幕参数的工具类：</p>
+<pre><code>public class DisplayUtil {
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    public static float getScreenDensity() {
+        return Resources.getSystem().getDisplayMetrics().density;
+    }
+
+    public static int dpToPx(int dp) {
+        return Math.round(Resources.getSystem().getDisplayMetrics().density * dp + 0.5f);
+    }
+
+    public static int spToPx(int sp) {
+        return Math.round(Resources.getSystem().getDisplayMetrics().scaledDensity * sp + 0.5f);
+    }
+
+    public static int pxToDp(int px) {
+        return Math.round(px / Resources.getSystem().getDisplayMetrics().density + 0.5f);
+    }
+
+    public static int pxToSp(int px) {
+        return Math.round(px / Resources.getSystem().getDisplayMetrics().scaledDensity + 0.5f);
+    }
+
+    public static int getStatusHeight(Context context) {
+        Rect rect = new Rect();
+        ((Activity)context).getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        return rect.top;
+    }
+
+    public static String getScreenParams(Context context) {
+        return getScreenWidth() + &quot;*&quot; + getScreenHeight();
+    }
+}
+</code></pre><p>在Fragment中避免直接使用getResource()获取Resource对象，容易出现IllegalStateException异常【提示：Fragment XXX not attached to Activity】。应直接获取Activity的Resource对象，至于getActivity()为nulld的问题可使用下面的方式解决:</p>
+<pre><code>@Override
+public void onAttach(Context context) {
+    super.onAttach(context);
+    // 解决getActivity()为nulld的情况
+    this.mContext = (FragmentActivity) context;
+}
+
+// 获取Resource对象
+mContext.getResource();
+</code></pre><h3 id="Adapter的设置"><a href="#Adapter的设置" class="headerlink" title="Adapter的设置"></a>Adapter的设置</h3><p>在设置Adapter的时候，通常都会复用View，但是在复用的时候需要注意：在条件判断时，需要完整的分支结构，即有if就应该有else; 否则就会出现复用问题。</p>
+<h3 id="Dialog的使用"><a href="#Dialog的使用" class="headerlink" title="Dialog的使用"></a>Dialog的使用</h3><p>Dialog也是开发中使用频率很高的一个组件，通常我们使用的都是自定义的AlertDialog, 但是在使用过程中会出现很多问题，比如：Activity销毁的时候没有关闭Dialog；延迟显示Dialog时Activity被销毁了等等。所以，可以使用DialogFragment（本质为Fragment）封装一下AlertDialog，使其生命周期跟随Activity的生命周期而变化，从而简化了对Dialog的管理。</p>
+<h3 id="自定义ellipse样式"><a href="#自定义ellipse样式" class="headerlink" title="自定义ellipse样式"></a>自定义ellipse样式</h3><p>TextView的ellipse属性时开发中常用的一个属性，以解决TextView中的文本较长时以…的样式显示。但偶尔可能遇到需修改这种显示样式的需求，比如将”…”更换为”      更多”，可通过下面的方式来解决：</p>
+<pre><code>// 计算需要追加的文字宽度
+private void getMoreTextWidth() {
+    TextView textView = new TextView(this);
+    textView.setTextSize(14);
+    TextPaint paint = textView.getPaint();
+    float[] items = new float[moreText.length()];
+    paint.getTextWidths(moreText, 0, moreText.length(), items);
+    for (float item : items) {
+        moreTextWidth += item;
+    }
+}
+
+// 将文字追加到指定行的指定位置
+private void setEllipsizeStyle(final TextView commentText, final int maxLine, final String comment) {
+    commentText.setText(comment);
+    commentText.post(new Runnable() {
+        @Override
+        public void run() {
+            int lineCount = commentText.getLineCount();
+            if (lineCount &lt;= maxLine) {
+                return;
+            }
+
+            Layout textLayout = commentText.getLayout();
+            // 获取指定行最后一个字符的位置索引
+            int lastIndex = textLayout.getLineEnd(maxLine);
+            // 获取指定行的开始位置和结束位置
+            float lineLeft = textLayout.getLineLeft(maxLine);
+            float lineRight = textLayout.getLineRight(maxLine);
+            StringBuilder builder = new StringBuilder();
+            if (lineRight - lineLeft + moreTextWidth &gt; maxWidth) { // 直接添加[更多]
+                lastIndex -= moreText.length();
+            } else {
+                String lastChar = comment.substring(lastIndex - 1, lastIndex);
+                if (&quot;\n&quot;.equals(lastChar)) {
+                    lastIndex--;
+                }
+            }
+            builder.append(comment.substring(0, lastIndex)).append(moreText);
+            commentText.setText(builder);
+        }
+    });
+}
+</code></pre><h3 id="设置View背景"><a href="#设置View背景" class="headerlink" title="设置View背景"></a>设置View背景</h3><p>设置圆角矩形的背景，通常我们会使用自定义Drawable资源来实现，但是这种方式很麻烦，不同的圆角，背景色就需要定义不同的资源文件，随着开发的迭代，Drawable资源越来越多，更糟糕的是，对于selector类的样式，可能需要定义三个资源来实现，相对来说很麻烦。其实我们可以通过GradientDrawable来设置背景，圆角，渐变等。这里写了一个工具类——<a href="https://github.com/JuHonggang/SimpleProject/blob/master/baselibrary/src/main/java/com/sxu/baselibrary/commonutils/ViewBgUtil.java" target="_blank" rel="external">ViewBgUtil</a>，随后需要设置背景时只需要调用一句代码即可实现。</p>
+<h3 id="设置文字样式"><a href="#设置文字样式" class="headerlink" title="设置文字样式"></a>设置文字样式</h3><p>开发过程中可能经常会遇到一行文本需要多种样式的情况，如：价格：￥20， ￥符号的字体为14dp， 其他的问题为16dp， 这时总不至于使用3个TextView来实现吧。对于这种情况，可使用Android的富文本——SpanningString来实现。这里写了个工具类——<a href="https://github.com/JuHonggang/SimpleProject/blob/master/baselibrary/src/main/java/com/sxu/baselibrary/commonutils/SpanStyleUtil.java" target="_blank" rel="external">SpanStyleUtil</a>，可简化设置过程。</p>
+<h3 id="布局嵌套问题"><a href="#布局嵌套问题" class="headerlink" title="布局嵌套问题"></a>布局嵌套问题</h3><p>尽可能杜绝ScrollView嵌套ListView的情况，默认情况下这种嵌套会导致ListView只显示一个Item，所以为了计算高度，需要重写ListViewd的onMeasure()方法：</p>
+<pre><code>protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE &gt;&gt; 2,
+    MeasureSpec.AT_MOST);
+    super.onMeasure(widthMeasureSpec, expandSpec);
+}
+</code></pre><p>但这种计算方式会导致ListView的高度为Item的总高度，而不是屏幕的高度，这也就是说，复用没什么卵用了。虽然页面滑动的过程中不会调用getView, 感觉好像丝丝顺滑，但是加载的过程太慢，因为它会一次性将所有的数据加入进来。一旦列表中包含图片，就很容易引发OOM， 所以，应直接杜绝这种实现方式，使用ListView+HeaderView+FooterView或使用RecycleView来实现相应的需求。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上是Android开发中的一些细节知识，由于每个细节无法自成文章，所以就整理起来了。随后可能会继续完善，当然，也欢迎各位补充。</p>
+
       
     </div>
     
@@ -284,13 +471,13 @@
     <!--
 
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/12/自定义圆形图片和圆角图片/">自定义圆形图片和圆角图片</a></p>
+        <p><span>本文标题:</span><a href="/2018/07/05/Android开发细节/">Android开发细节</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
-        <p><span>发布时间:</span>2016年05月12日 - 19时09分</p>
-        <p><span>最后更新:</span>2016年05月12日 - 19时37分</p>
+        <p><span>发布时间:</span>2018年07月05日 - 20时00分</p>
+        <p><span>最后更新:</span>2018年07月05日 - 20时51分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/12/自定义圆形图片和圆角图片/" title="自定义圆形图片和圆角图片">http://juhonggang.github.io/2016/05/12/自定义圆形图片和圆角图片/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2016/05/12/自定义圆形图片和圆角图片/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/05/Android开发细节/" title="Android开发细节">http://juhonggang.github.io/2018/07/05/Android开发细节/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/07/05/Android开发细节/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -304,18 +491,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/13/Android之自定义ProgressBar样式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Android之自定义ProgressBar样式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/05/09/Android之图片选择与裁剪/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android之图片选择与裁剪</div>
+    <a href="/2018/07/02/Kotlin开发细节/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Kotlin开发细节</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -350,13 +528,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/13/Android之自定义ProgressBar样式/" title="上一篇: Android之自定义ProgressBar样式">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/09/Android之图片选择与裁剪/" title="下一篇: Android之图片选择与裁剪">
+            <a href="/2018/07/02/Kotlin开发细节/" title="下一篇: Kotlin开发细节">
                 <i class="fa fa-angle-right"></i>
             </a>
         
