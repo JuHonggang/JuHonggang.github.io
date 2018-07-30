@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android中View滑动方式的选择 | Freeman的博客</title>
+  <title>Android通用UI组件之Dialog | Freeman的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
+  <meta name="description" content="Dialog是Android开发中常用的UI组件，为了方便显示对话框，系统提供了AlertDialog，它提供了丰富的API，使用时只需要设置相应的属性即可。但通常情况下，不会直接使用AlertDialog, 因为APP的设计并不一定都遵循Material Design的设计标准，同时这种通用的UI组件的设计风格也会经常发生变化。所以通常情况下，都会对AlertDialog的样式进行自定义，使其能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android中View滑动方式的选择">
-<meta property="og:url" content="http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/index.html">
+<meta property="og:title" content="Android通用UI组件之Dialog">
+<meta property="og:url" content="http://juhonggang.github.io/2018/07/30/Android通用UI组件之Dialog/index.html">
 <meta property="og:site_name" content="Freeman的博客">
-<meta property="og:description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
-<meta property="og:updated_time" content="2017-01-08T03:39:25.000Z">
+<meta property="og:description" content="Dialog是Android开发中常用的UI组件，为了方便显示对话框，系统提供了AlertDialog，它提供了丰富的API，使用时只需要设置相应的属性即可。但通常情况下，不会直接使用AlertDialog, 因为APP的设计并不一定都遵循Material Design的设计标准，同时这种通用的UI组件的设计风格也会经常发生变化。所以通常情况下，都会对AlertDialog的样式进行自定义，使其能">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164eb2f27bac6836?w=360&h=540&f=gif&s=1854313">
+<meta property="og:updated_time" content="2018-07-30T12:43:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android中View滑动方式的选择">
-<meta name="twitter:description" content="View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。">
+<meta name="twitter:title" content="Android通用UI组件之Dialog">
+<meta name="twitter:description" content="Dialog是Android开发中常用的UI组件，为了方便显示对话框，系统提供了AlertDialog，它提供了丰富的API，使用时只需要设置相应的属性即可。但通常情况下，不会直接使用AlertDialog, 因为APP的设计并不一定都遵循Material Design的设计标准，同时这种通用的UI组件的设计风格也会经常发生变化。所以通常情况下，都会对AlertDialog的样式进行自定义，使其能">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164eb2f27bac6836?w=360&h=540&f=gif&s=1854313">
   
     <link rel="alternative" href="/atom.xml" title="Freeman的博客" type="application/atom+xml">
   
@@ -219,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Android中View滑动方式的选择" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android通用UI组件之Dialog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/01/07/Android中View滑动方式的选择/" class="article-date">
-      <time datetime="2017-01-07T01:33:17.000Z" itemprop="datePublished">2017-01-07</time>
+      <a href="/2018/07/30/Android通用UI组件之Dialog/" class="article-date">
+      <time datetime="2018-07-30T12:30:00.000Z" itemprop="datePublished">2018-07-30</time>
 </a>
     </div>
   
@@ -236,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android中View滑动方式的选择
+      Android通用UI组件之Dialog
     </h1>
   
 
@@ -252,7 +254,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android移动方案/">Android移动方案</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dialog/">Dialog</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -263,128 +265,102 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>View的滑动是我们开发中需要的一项基本技能，当然，Android在这方面做的还是比较出色， 提供了多种实现方式。</p>
+        <p>Dialog是Android开发中常用的UI组件，为了方便显示对话框，系统提供了AlertDialog，它提供了丰富的API，使用时只需要设置相应的属性即可。但通常情况下，不会直接使用AlertDialog, 因为APP的设计并不一定都遵循Material Design的设计标准，同时这种通用的UI组件的设计风格也会经常发生变化。所以通常情况下，都会对AlertDialog的样式进行自定义，使其能够适用于各种设计风格。</p>
 <a id="more"></a>
-<ol>
-<li>重写View的onTouchEvent或设置View的setOnTouchListener()，在MotionEvent.MotionEvent.ACTION_MOVE中做相应的滑动处理；</li>
-<li>采用动画的方式（View动画或属性动画）实现；</li>
-</ol>
-<p>不论哪种方式，其实质都是可以调用scrollTo/scrollBy，或者setLayoutParams()或layout()来实现的。</p>
-<p>下面我们对这几种情况进行详细说明:</p>
-<p>由于onTouchEvent和setOnTouchListener()可实现相同的功能，但setOnTouchListener()使用起来更简单，因为不需要自定义View， 同时setOnTouchListener中的onTouch比onTouchEvent优先执行，从View的dispatchTouchEvent()就可看出：</p>
-<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
-    if (mInputEventConsistencyVerifier != null) {
-        mInputEventConsistencyVerifier.onTouchEvent(event, 0);
+<h3 id="自定义Dialog"><a href="#自定义Dialog" class="headerlink" title="自定义Dialog"></a>自定义Dialog</h3><p>自定义Dialog通常使用以下三种方式：</p>
+<ul>
+<li>通过AlertDialog提供的setView方法设置布局；</li>
+<li>继承AlertDialog, 在onCreate中调用setContentView加载布局；</li>
+<li>继承DialogFragment, 在onCreateView中加载布局；</li>
+</ul>
+<p>具体的核心代码实现如下所示：</p>
+<pre><code>// 方法一
+View dialogView = View.inflate(this, R.layout.dialog_common_layout, null);
+/**
+ * 通过dialogView.findViewById获取相应的View并设置对应的值
+ */
+new AlertDialog.Builder(this)
+    .setView(dialogView)
+    .show();
+
+
+// 方法二
+public class CommonDialog extends AlertDialog {
+
+    public CommonDialog(Context context) {
+        super(context);
     }
 
-    if (onFilterTouchEventForSecurity(event)) {
-        //noinspection SimplifiableIfStatement
-        ListenerInfo li = mListenerInfo;
-        if (li != null &amp;&amp; li.mOnTouchListener != null &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED
-                &amp;&amp; li.mOnTouchListener.onTouch(this, event)) {
-            return true;
-        }
-        // 没有设置mOnTouchListener的时候再执行onToucheEvent()
-        if (onTouchEvent(event)) {
-            return true;
-        }
-    }
-
-    if (mInputEventConsistencyVerifier != null) {
-        mInputEventConsistencyVerifier.onUnhandledEvent(event, 0);
-    }
-    return false;
-}
-</code></pre><p>那么下面就以setOnToucheListener()为例，来实现第一种滑动方案：</p>
-<pre><code>view.setOnTouchListener(new View.OnTouchListener() {
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                    startX = motionEvent.getX();
-                startY = motionEvent.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                    float distanceX = motionEvent.getX() - startX;
-                float distanceY = motionEvent.getY() - startY;
-                // 处理滑动事件，其滑动距离为distance
-                startX = motionEvent.getX();
-                startY = moitonEvent.getY();
-                break;
-            default:
-                break;
-        }
-
-        return true;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_common_layout);
+        /**
+         * 通过findViewById获取相应的View，设置对应的值
+         */
     }
-});
-</code></pre><p>上面的代码是实现滑动的一个基本框架，其滑动方式的差异就存在于处理滑动事件的部分。下面我们通过具体的方式来实现：</p>
-<h3 id="scrollTo-scrollBy方式"><a href="#scrollTo-scrollBy方式" class="headerlink" title="scrollTo/scrollBy方式"></a>scrollTo/scrollBy方式</h3><p>在使用这种方式的时候需要注意以下问题：</p>
-<ol>
-<li><p>它引起的移动仅仅是内容的移动，View本身是不移动的。例如，对于TextView，使用这种方式滑动时，移动的只是文字，而TextView本身不会移动；而对于ViewGroup, 移动的当然也就是childView了。</p>
-</li>
-<li><p>scrollTo表示移动至指定位置，scrollBy表示移动指定偏移量。这两个函数中的参数需要特别注意一下，参数&gt;0表示沿着坐标轴反方向移动，反之向坐标轴正方向移动，与我们理解的坐标总是反的。</p>
-</li>
-<li><p>由于移动的是View的内容而不是View本身，所以移动之后View的事件触发区域还停留在移动之前的位置，也就是说，移动之后，View的内容所在的位置可能会出现无法响应事件的情况。</p>
-</li>
-</ol>
-<p>了解了上面的基本知识，下面我们来通过这种方式来完善我们的代码，下面我们只展示处理滑动事件的代码：</p>
-<pre><code>scrollBy(distanceX, distanceY);
-/* 当然也可以通过scrollTo来实现
-int scrollX = view.getScrollX();
-int scrollY = view.getScrollY();
-scrollTo(scrollX + distanceX, scrollY + distanceY);
-*/
-</code></pre><p>毫无疑问，scrollBy比scrollTo实现起来要简单，毕竟scrollBy也是通过scrollTo来实现的，源码如下：</p>
-<pre><code>public void scrollBy(int x, int y) {
-    scrollTo(mScrollX + x, mScrollY + y);
 }
-</code></pre><p>这种方式实现滑动很简单，但局限性也很大，因为它只能移动View的内容，而不能移动View本身，所以经常使用在ViewGroup的滑动处理中。</p>
-<h3 id="LayoutParams方式"><a href="#LayoutParams方式" class="headerlink" title="LayoutParams方式"></a>LayoutParams方式</h3><p>在开发过程中，我们经常遇到需要动态修改View位置或大小的情况，一般我们都是通过获取其LayoutParams，然后设置相应的属性，最后调用setLayoutParams()来完成。那在滑动处理过程中，也可以使用这种方式，动态地修改其LayoutParams的属性来实现滑动。具体代码如下：</p>
-<pre><code>ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-params.leftMargin += distanceX;
-params.topMargin += distanceY;
-view.setLayoutParams(params);
-</code></pre><p>与scrollBy/scrollTo不同的是，这种方式移动的是View本身，而不是其内容。同时，其中的distanceX/distanceY大于0表示向坐标轴正方向移动，反之表示向坐标轴反方向移动。</p>
-<h3 id="调用View的layout-方法"><a href="#调用View的layout-方法" class="headerlink" title="调用View的layout()方法"></a>调用View的layout()方法</h3><p>View的layout()方法用来动态设置View的边距，通过重复调用这个方法，也可以达到滑动的方式。具体代码如下：</p>
-<pre><code>view.layout((int)(view.getLeft() + distanceX), (int)(view.getTop() + distanceY, 0, 0));
-view.requestLayout();    // 注意调用layout后需要调用requestLayout刷新布局
-</code></pre><p>与LayoutParams方式一样，这种方式移动的也是View本身。从本质上来讲，这两种方式没什么区别，都是通过影响Layout过程来实现的。</p>
-<p>从onLayout()的源码中我们可以看出， 影响View位置的几个因素：</p>
-<ol>
-<li>对齐方式；</li>
-<li>边距，如left, top, right, bottom;</li>
-<li>params参数的margin属性；</li>
-<li>parentView的padding属性;</li>
-</ol>
-<p>理论上来将，修改这几种因素都可引起View位置的变化，但是对齐方式局限性太大，而且各ViewGroup还存在差异，显然不可取。修改边距其实就是layout()方式，params参数当然也就是LayoutParams方式。而parentView的padding属性影响所有的childView, 所以不能通过这种方式来修改某个View的位置。</p>
-<p>以上方式都是在涉及滑动手势的情况下的解决方案，其实在日常开发中，我们还会遇到其他需要View移动的场景，如点击引起View的移动。在这种情况下，我们就可以考虑使用动画方式来解决了。</p>
-<h3 id="View动画方式"><a href="#View动画方式" class="headerlink" title="View动画方式"></a>View动画方式</h3><p>Android提供了缩放，渐变，平移和旋转四种View动画，这种动画的特点是可重复播放，但动画结束后View将恢复位置。</p>
-<h3 id="属性动画方式"><a href="#属性动画方式" class="headerlink" title="属性动画方式"></a>属性动画方式</h3><p>属性动画可认为是View动画的扩充，因为它可以通过渐变的方式来修改View的属性。这样就可解决scrollBy/scrollTo/LayoutParmas/layout()这几种方式单次移动引起的动画的生硬感。例如：将一个view向右移动200px,这里我们选择layoutParams的方式，那么伪代码应该如下所示：</p>
-<pre><code>ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-params.leftMargin += 200;
-view.setLayoutParams(leftMargin);
-</code></pre><p>如果这种改变是在点击事件下触发的，那么就会发现view瞬间向右移动了200px, 这种感觉很生硬，那如何解决了，这里属性动画就派上用场了。修改代码如下：</p>
-<pre><code>ValueAnimator animator = ValueAnimator.ofInt(200);
-animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+// 方法三
+public class CommonDialog extends DialogFragment {
+
+    @Nullable
     @Override
-    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-        int value = (int) valueAnimator.getAnimatedValue();
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-        params.leftMargin += (value - lastValue);
-        view.setLayoutParams(leftMargin);
-        lastValue = value;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View dialogView = inflater.inflate(R.layout.dialog_common_layout, null);
+        /**
+         * 通过dialogView.findViewById获取相应的View并设置对应的值
+         */
+        return dialogView;
     }
-});
-</code></pre><p>属性动画将根据动画的执行时间和插值器将200px分成若干份，这样通过多次setLayoutParams的方式就实现了平滑移动的效果。</p>
-<p>注意：本文的主线是分析View的滑动方案的选择，所以不对View动画和属性动画做更详细的介绍，对于这部分，更详细的内容可自行了解。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>通过对Android提供的几种移动方案的分析，我们可以总结出以下结论：</p>
-<ol>
-<li>如果需要跟随手势移动，移动的如果是View的内容（针对ViewGroup是childView）， 那么选择scrollBy/scrollTo来处理；如果移动的是View本身，那么选择LayoutParams或者layout()的方式来实现；</li>
-<li>如果是单次移动，且移动完成后恢复位置或重复性的移动效果，使用View动画或动画集合实现；</li>
-<li>如果是点击，长按，双击等事件引起的View移动，使用属性动画是一个不错的选择；</li>
-</ol>
-<p>以上仅是个人使用过程中的一些简单总结，如有不恰当之处，欢迎指正~</p>
+}
+</code></pre><p>第一种和第二种方法直接使用的Dialog类型, 这种方式Dialog的生命周期不好控制，容易出现WindowManager$BadTokenException异常。所以为了Dialog的生命周期能够和Activity同步，推荐使用DialogFragment。但是在使用DialogFragment时，最好不要在onCreateView中直接加载布局，因为这种方式相当于弃用了系统提供的AlertDialog样式，如果APP要求使用系统提供的原生组件，此时修改起来可能就比较麻烦。其实DialogFragment还有一个重要的API——onCreateDialog，返回Dialog对象，所以可在里面创建AlertDialog, 根据定义的样式返回相应的风格。</p>
+<p>APP中使用Dialog的地方很多，但常用的也就那么几种：提示对话框，选择对话框，底部弹框，加载框，为了更好地进行风格切换，这里同时支持了Material Design的设计风格(系统默认的样式)和自定义的设计风格，只需要设置相应的风格即可。样式如下图所示，具体的源码参考<a href="https://github.com/JuHonggang/SimpleProject/tree/master/basecomponent/src/main/java/com/sxu/basecomponent/uiwidget" target="_blank" rel="external">CommonDilaog</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eb2f27bac6836?w=360&amp;h=540&amp;f=gif&amp;s=1854313" alt="image"></p>
+<h3 id="修改Dialog默认样式"><a href="#修改Dialog默认样式" class="headerlink" title="修改Dialog默认样式"></a>修改Dialog默认样式</h3><p>在使用默认的对话框时，有时可能需要改变这几个View的颜色，但AlertDialog并没有提供直接的API进行设置，通过以下方法对其中的View进行设置。</p>
+<p>AlertDialog Title的样式可通过设置Dialog主题中的windowTitle属性实现:</p>
+<pre><code>&lt;!-- Title的文字样式 --&gt;
+&lt;style name=&quot;AlertDialogTitleStyle&quot;&gt;
+    &lt;item name=&quot;android:textSize&quot;&gt;48dp&lt;/item&gt;
+    &lt;item name=&quot;android:textColor&quot;&gt;#ff0000&lt;/item&gt;
+    &lt;item name=&quot;android:textStyle&quot;&gt;bold&lt;/item&gt;
+&lt;/style&gt;
+
+&lt;!-- Dialog的主题样式 --&gt;
+&lt;style name=&quot;CommonDialog&quot; parent=&quot;Theme.AppCompat.Dialog&quot;&gt;
+    &lt;!-- 引用定义的Title样式 --&gt;
+    &lt;item name=&quot;android:windowTitleStyle&quot;&gt;@style/AlertDialogTitleStyle&lt;/item&gt;
+    &lt;item name=&quot;android:windowBackground&quot;&gt;@color/transparent&lt;/item&gt;
+&lt;/style&gt;
+</code></pre><p>其他的View可通过系统id进行获取：</p>
+<pre><code>MessageViewId: android.R.id.message
+PositiveButtonId: android.R.id.button1
+NegativeButtonId: android.R.id.button2
+</code></pre><p>先调用Dialog的show方法（因为调用show方法后Dialog才开始加载布局），然后获取相应的View进行设置样式，例如MessageView样式的修改：</p>
+<pre><code>AlertDialog dialog = builder.show();
+TextView messageText = dialog.findViewById(android.R.id.message);
+messageText.setTextColor(Color.RED);
+messageText.setTextSize(20);
+</code></pre><h3 id="Dialog主题"><a href="#Dialog主题" class="headerlink" title="Dialog主题"></a>Dialog主题</h3><p>在自定义Dialog时，可能需要对Dialog所使用的主题进行定义，这里介绍Dialog主题中常用的几个属性：</p>
+<pre><code>&lt;style name=&quot;CommonDialog&quot; parent=&quot;Theme.AppCompat.Dialog&quot;&gt;
+    &lt;!-- 背景遮罩的不透明度，backgroundDimEnabled为true时有效 --&gt;
+    &lt;item name=&quot;android:backgroundDimAmount&quot;&gt;0.4&lt;/item&gt;
+    &lt;!-- 是否需要背景遮罩 --&gt;
+    &lt;item name=&quot;android:backgroundDimEnabled&quot;&gt;true&lt;/item&gt;
+    &lt;!-- Dialog是否悬停 --&gt;
+    &lt;item name=&quot;android:windowIsFloating&quot;&gt;true&lt;/item&gt;
+    &lt;!-- dialog的最小宽度占总屏幕宽度的百分比 --&gt;
+    &lt;item name=&quot;android:windowMinWidthMinor&quot;&gt;85%&lt;/item&gt;
+    &lt;!-- Dialog内容区域的背景 --&gt;
+    &lt;item name=&quot;android:windowBackground&quot;&gt;@color/transparent&lt;/item&gt;
+&lt;/style&gt;
+</code></pre><p>windowBackground属性需要注意一下，如果Dialog的自定义布局中设置了背景，那么这里可将其设置为透明，否则在低版本的Android系统上会出现黑色边框。如果自定义布局中没有设置背景，可将windowBackground属性设置为相应的Drawable资源。</p>
+<p>当然，Dialog的主题中还有很多属性。但没有对齐相关的属性。如果需要修改Dialog的对齐方式，可在show方法调用之后，获取Dialog的LayoutParams参数进行相应的设置。例如让Dialog显示在底部：</p>
+<pre><code>WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+params.gravity = Gravity.BOTTOM;
+dialog.getWindow().setAttributes(params);
+</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对系统UI组件进行封装时，一定要考虑原生的样式，尽可能利用系统提供的组件实现。这样可在各种不同的UI风格之间进行切换。</p>
 
       
     </div>
@@ -395,13 +371,13 @@ animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
     <!--
 
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/01/07/Android中View滑动方式的选择/">Android中View滑动方式的选择</a></p>
+        <p><span>本文标题:</span><a href="/2018/07/30/Android通用UI组件之Dialog/">Android通用UI组件之Dialog</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Freeman 的个人博客">Freeman</a></p>
-        <p><span>发布时间:</span>2017年01月07日 - 09时33分</p>
-        <p><span>最后更新:</span>2017年01月08日 - 11时39分</p>
+        <p><span>发布时间:</span>2018年07月30日 - 20时30分</p>
+        <p><span>最后更新:</span>2018年07月30日 - 20时43分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/01/07/Android中View滑动方式的选择/" title="Android中View滑动方式的选择">http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2017/01/07/Android中View滑动方式的选择/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/30/Android通用UI组件之Dialog/" title="Android通用UI组件之Dialog">http://juhonggang.github.io/2018/07/30/Android通用UI组件之Dialog/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://juhonggang.github.io/2018/07/30/Android通用UI组件之Dialog/　　作者: Freeman" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -415,18 +391,9 @@ animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
 <nav id="article-nav">
   
-    <a href="/2017/08/26/简化View的背景定义/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          简化View的背景定义
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/09/UIL源码解析之内存缓存/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">UIL源码解析之内存缓存</div>
+    <a href="/2018/07/10/Android模块化实践/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android模块化实践</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -461,13 +428,11 @@ animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/08/26/简化View的背景定义/" title="上一篇: 简化View的背景定义">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/09/UIL源码解析之内存缓存/" title="下一篇: UIL源码解析之内存缓存">
+            <a href="/2018/07/10/Android模块化实践/" title="下一篇: Android模块化实践">
                 <i class="fa fa-angle-right"></i>
             </a>
         
